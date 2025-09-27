@@ -10,7 +10,16 @@ El proyecto está organizado de forma sencilla para facilitar su evolución:
 - `assets/` → Carpeta opcional para imágenes, estilos o recursos complementarios.
 - `resumen/` → Documento de texto o Markdown con el resumen del laboratorio.
 
-## 🧪 Laboratorio Actual: Laboratorio 3 — Elementos HTML
+## 🧪 Laboratorio Actual: Laboratorio 4 — Más Elementos HTML
+
+**Laboratorio 4: Tablas, hipervínculos y navegación interna**
+
+Objetivos:
+- Incorporar tablas para organizar información comparativa.
+- Usar hipervínculos externos e internos para mejorar la navegación.
+- Consolidar la estructura semántica del sitio.
+
+📌 *Este laboratorio amplía el uso de HTML con elementos que mejoran la organización y accesibilidad del contenido.*
 
 **Laboratorio 3: Creación de una página web personal**
 
