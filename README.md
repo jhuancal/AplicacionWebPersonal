@@ -12,7 +12,7 @@ El proyecto está organizado de forma sencilla para facilitar su evolución:
 
 ## 🧪 Laboratorio Actual: Laboratorio 5 — HTML Semántico
 
-**Laboratorio 5: Aplicación de etiquetas semánticas en páginas educativas**
+**Laboratorio 5: Aplicación de etiquetas semánticas**
 
 Objetivos:
 - Implementar etiquetas semánticas como `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<aside>` y `<footer>`.
