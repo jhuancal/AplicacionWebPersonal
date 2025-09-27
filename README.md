@@ -10,7 +10,16 @@ El proyecto está organizado de forma sencilla para facilitar su evolución:
 - `assets/` → Carpeta opcional para imágenes, estilos o recursos complementarios.
 - `resumen/` → Documento de texto o Markdown con el resumen del laboratorio.
 
-## 🧪 Laboratorio Actual: Laboratorio 4 — Más Elementos HTML
+## 🧪 Laboratorio Actual: Laboratorio 5 — HTML Semántico
+
+**Laboratorio 5: Aplicación de etiquetas semánticas en páginas educativas**
+
+Objetivos:
+- Implementar etiquetas semánticas como `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<aside>` y `<footer>`.
+- Crear nuevas páginas temáticas que mantengan la coherencia del proyecto.
+- Mejorar la organización, accesibilidad y mantenibilidad del código.
+
+📌 *Este laboratorio se enfoca en estructurar el contenido de forma clara y significativa, aplicando buenas prácticas de HTML5.*
 
 **Laboratorio 4: Tablas, hipervínculos y navegación interna**
 
