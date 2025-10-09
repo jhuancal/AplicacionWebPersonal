@@ -138,3 +138,92 @@ ul.enlaces-internos li a {
   color: #0066cc;
   text-decoration: underline;
 }
+
+div p {
+  color: blue;
+}
+
+div > p {
+  color: red;
+}
+
+h1 + p {
+  font-weight: bold;
+}
+
+h1 ~ p {
+  color: green;
+}
+
+input[type="text"] {
+  border: 2px solid blue;
+}
+
+a[href^="https"] {
+  color: green;
+}
+
+a[href$=".pdf"] {
+  color: red;
+}
+
+a[href*="google"] {
+  color: orange;
+}
+
+a:link {
+  color: blue;
+}
+
+a:visited {
+  color: purple;
+}
+
+a:hover {
+  color: red;
+}
+
+a:active {
+  color: orange;
+}
+
+input:focus {
+  border: 2px solid green;
+}
+
+li:first-child {
+  color: red;
+}
+
+li:last-child {
+  color: blue;
+}
+
+li:nth-child(2) {
+  color: green;
+}
+
+li:nth-child(odd) {
+  background: #eee;
+}
+
+li:nth-child(even) {
+  background: #ccc;
+}
+
+p::first-letter {
+  font-size: 30px;
+  color: red;
+}
+
+p::first-line {
+  font-weight: bold;
+}
+
+p::before {
+  content: "👉 ";
+}
+
+p::after {
+  content: " ✔";
+}
