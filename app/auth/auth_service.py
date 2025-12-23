@@ -31,7 +31,7 @@ class AuthService:
             # 2. Get Persona Data
             if base_user.get('IdPersona'):
                 cursor = conn.cursor(dictionary=True)
-                query = "SELECT Nombres, Apellidos, DNI, Correo FROM Adm_Persona WHERE Id = %s"
+                query = "SELECT Nombres, Apellidos, Dni, Email FROM Adm_Persona WHERE Id = %s"
                 cursor.execute(query, (base_user['IdPersona'],))
                 persona_data = cursor.fetchone()
                 if persona_data:

@@ -8,14 +8,18 @@ from werkzeug.utils import secure_filename
 from db import get_db_connection
 from auth.decorators import login_required
 
-from repositories.producto import ProductoRepository
-from repositories.producto import ProductoRepository
 from repositories.jugador import JugadorRepository
 from repositories.persona import PersonaRepository
 
 from entities.jugador import Jugador
-from entities.producto import Producto
 from entities.persona import Persona
+
+from repositories.experiencia_jugador import ExperienciaJugadorRepository
+from repositories.racha_jugador import RachaJugadorRepository
+from repositories.desafio_jugador import DesafioJugadorRepository
+from repositories.rango_jugador_temporada import RangoJugadorTemporadaRepository
+from repositories.avance_curso_jugador import AvanceCursoJugadorRepository
+from repositories.curso import CursoRepository
 
 from auth.auth_service import AuthService
 
@@ -92,13 +96,6 @@ def perfil():
     user = session.get('user_data')
     return render_template("game/perfil.html", user=user)
 
-# Admin Pages Routes
-@admin_bp.route("/admin/administracion/producto")
-@login_required
-def admin_producto():
-    user = session.get('user_data')
-    return render_template("admin/Administracion/producto.html", user=user)
-
 @admin_bp.route("/admin/seguridad/usuario")
 @login_required
 def admin_usuario():
@@ -111,47 +108,99 @@ def admin_persona():
     user = session.get('user_data')
     return render_template("admin/Administracion/persona.html", user=user)
 
+# ==========================================
+# DASHBOARD APIs
+# ==========================================
 
-@admin_bp.route("/edit_product/<string:id>")
+@admin_bp.route("/api/user/hud", methods=['GET'])
 @login_required
-def edit_product(id):
-    conn = get_db_connection()
-    repo = ProductoRepository(conn)
-    product = repo.get_by_id(id)
-    conn.close()
-    if product:
-        return render_template("admin/edit_product.html", product=product)
-    return "Product not found", 404
+def api_user_hud():
+    user = session.get('user_data')
+    # Mocking Points/Rank for now or fetching from DB
+    return jsonify({
+        "username": user.get('Username', 'Player'),
+        "rank": "GOLD III", # Todo: fetch real rank
+        "points": 1250,      # Todo: fetch real points
+        "profile_pic": "/static/img/default_avatar.png"
+    })
 
-@admin_bp.route("/update_product/<string:id>", methods=['POST'])
+@admin_bp.route("/api/dashboard/stats", methods=['GET'])
 @login_required
-def update_product(id):
-    name = request.form['name']
-    description = request.form['description']
-    price_regular = request.form['price_regular']
-    price_sale = request.form['price_sale']
-    discount = request.form['discount']
-    arrival_day = request.form['arrival_day']
-    image_url = request.form['image_url']
-
+def api_dashboard_stats():
+    user = session.get('user_data')
+    user_id = user.get('Id')
     conn = get_db_connection()
-    repo = ProductoRepository(conn)
-    repo.update(id, 
-                Nombre=name, 
-                Descripcion=description, 
-                PrecioRegular=price_regular, 
-                PrecioVenta=price_sale, 
-                Descuento=discount, 
-                DiaLlegada=arrival_day, 
-                UrlImagen=image_url)
+    
+    # 1. Get Rank
+    rank_repo = RangoJugadorTemporadaRepository(conn)
+    # Assuming get_all returns list, we filter (ideal would be get_by_user)
+    # For now, simplistic approach:
+    ranks = rank_repo.get_all() 
+    my_rank = next((r for r in ranks if r.IdJugador == user_id), None)
+    
+    # 2. Get XP
+    exp_repo = ExperienciaJugadorRepository(conn)
+    exps = exp_repo.get_all()
+    my_exp = next((e for e in exps if e.IdJugador == user_id), None)
+    
+    # 3. Get Streak
+    streak_repo = RachaJugadorRepository(conn)
+    streaks = streak_repo.get_all()
+    my_streak = next((s for s in streaks if s.IdJugador == user_id), None)
+    
     conn.close()
-    return redirect(url_for('admin.dashboard')) # Updated url_for
+    
+    return jsonify({
+        "rank": my_rank.Rango if my_rank else "UNRANKED",
+        "xp": my_exp.TotalExp if my_exp else 0,
+        "streak": my_streak.RachaActual if my_streak else 0
+    })
+
+@admin_bp.route("/api/dashboard/challenge", methods=['GET'])
+@login_required
+def api_dashboard_challenge():
+    user = session.get('user_data')
+    user_id = user.get('Id')
+    conn = get_db_connection()
+    
+    repo = DesafioJugadorRepository(conn)
+    challenges = repo.get_all()
+    my_challenge = next((c for c in challenges if c.IdJugador == user_id and c.Estado == 'PENDIENTE'), None)
+    
+    conn.close()
+    
+    if my_challenge:
+        return jsonify(my_challenge.to_dict())
+    return jsonify(None)
+
+@admin_bp.route("/api/dashboard/progress", methods=['GET'])
+@login_required
+def api_dashboard_progress():
+    user = session.get('user_data')
+    user_id = user.get('Id')
+    conn = get_db_connection()
+    
+    # Get active progress
+    prog_repo = AvanceCursoJugadorRepository(conn)
+    progs = prog_repo.get_all()
+    my_prog = next((p for p in progs if p.IdJugador == user_id), None)
+    
+    result = None
+    if my_prog:
+        # Get Course Name
+        course_repo = CursoRepository(conn)
+        course = course_repo.get_by_id(my_prog.IdCurso)
+        result = {
+            "courseName": course.Nombre if course else "Unknown Course",
+            "percent": float(my_prog.PorcentajeAvance)
+        }
+        
+    conn.close()
+    return jsonify(result)
 
 # Entity-Repository Mapping
 def get_repo_and_entity(entity_name, conn):
-    if entity_name == 'adm_administracion_producto':
-        return ProductoRepository(conn), Producto
-    elif entity_name == 'seg_seguridad_jugador':
+    if entity_name == 'seg_seguridad_jugador':
         return JugadorRepository(conn), Jugador
     elif entity_name == 'adm_administracion_persona':
         return PersonaRepository(conn), Persona

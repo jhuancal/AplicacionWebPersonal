@@ -6,14 +6,14 @@ class Repository:
 
     def get_all(self):
         cursor = self.conn.cursor(dictionary=True)
-        cursor.execute(f"SELECT * FROM {self.table_name}")
+        cursor.execute(f"SELECT * FROM {self.table_name} WHERE ESTADO = 1")
         rows = cursor.fetchall()
         cursor.close()
         return [self.entity_class(**row) for row in rows]
 
     def get_by_id(self, id):
         cursor = self.conn.cursor(dictionary=True)
-        cursor.execute(f"SELECT * FROM {self.table_name} WHERE Id=%s", (id,))
+        cursor.execute(f"SELECT * FROM {self.table_name} WHERE Id=%s AND ESTADO = 1", (id,))
         row = cursor.fetchone()
         cursor.close()
         return self.entity_class(**row) if row else None
@@ -27,16 +27,33 @@ class Repository:
         cursor.execute(sql, tuple(kwargs.values()))
         self.conn.commit()
         cursor.close()
-    def delete(self, id):
+
+    def update(self, id, **kwargs):
         cursor = self.conn.cursor()
-        sql = f"DELETE FROM {self.table_name} WHERE Id = %s"
+        
+        set_clauses = []
+        values = []
+        for col, val in kwargs.items():
+            set_clauses.append(f"{col} = %s")
+            values.append(val)
+        
+        values.append(id)
+        sql = f"UPDATE {self.table_name} SET {', '.join(set_clauses)} WHERE Id = %s"
+        cursor.execute(sql, tuple(values))
+        self.conn.commit()
+        cursor.close()
+
+    def delete(self, id):
+        # Soft Delete
+        cursor = self.conn.cursor()
+        sql = f"UPDATE {self.table_name} SET ESTADO = 0 WHERE Id = %s"
         cursor.execute(sql, (id,))
         self.conn.commit()
         cursor.close()
 
     def count_all(self, filters=None):
         cursor = self.conn.cursor()
-        where_clause = ""
+        where_clause = "WHERE ESTADO = 1"
         params = []
         if filters:
             conditions = []
@@ -48,9 +65,8 @@ class Repository:
                     if op == 'Contains':
                         conditions.append(f"{prop} LIKE %s")
                         params.append(f"%{val}%")
-                    # Add other operators as needed
             if conditions:
-                where_clause = "WHERE " + " AND ".join(conditions)
+                where_clause += " AND " + " AND ".join(conditions)
         
         sql = f"SELECT COUNT(*) FROM {self.table_name} {where_clause}"
         cursor.execute(sql, tuple(params))
@@ -60,7 +76,7 @@ class Repository:
 
     def get_paged(self, start_index, length, filters=None, order=None):
         cursor = self.conn.cursor(dictionary=True)
-        where_clause = ""
+        where_clause = "WHERE ESTADO = 1"
         params = []
         
         if filters:
@@ -74,7 +90,7 @@ class Repository:
                         conditions.append(f"{prop} LIKE %s")
                         params.append(f"%{val}%")
             if conditions:
-                where_clause = "WHERE " + " AND ".join(conditions)
+                where_clause += " AND " + " AND ".join(conditions)
 
         order_clause = ""
         if order:

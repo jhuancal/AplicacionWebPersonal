@@ -7,6 +7,9 @@ class JugadorRepository(Repository):
 
     def get_by_username(self, username):
         cursor = self.conn.cursor(dictionary=True)
-        query = f"SELECT * FROM {self.table_name} WHERE Username = %s AND ESTADO = 1"
-        cursor.execute(query, (username,))
-        return cursor.fetchone()
+        # Using self.table_name provided by base Repository
+        sql = f"SELECT * FROM {self.table_name} WHERE Username = %s AND ESTADO = 1"
+        cursor.execute(sql, (username,))
+        row = cursor.fetchone()
+        cursor.close()
+        return row

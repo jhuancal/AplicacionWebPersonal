@@ -17,18 +17,18 @@
                 <i class="fa-solid fa-trophy"
                     style="font-size: 2rem; color: var(--term-gold); margin-bottom: 0.5rem;"></i>
                 <div style="font-size: 0.8rem; color: #888;">CURRENT RANK</div>
-                <div style="font-size: 1.2rem; font-weight: bold;">GOLD III</div>
+                <div style="font-size: 1.2rem; font-weight: bold;" id="stat-rank">Loading...</div>
             </div>
             <div class="game-card text-center">
                 <i class="fa-solid fa-bolt"
                     style="font-size: 2rem; color: var(--term-blue); margin-bottom: 0.5rem;"></i>
                 <div style="font-size: 0.8rem; color: #888;">TOTAL XP</div>
-                <div style="font-size: 1.2rem; font-weight: bold;">12,450</div>
+                <div style="font-size: 1.2rem; font-weight: bold;" id="stat-xp">0</div>
             </div>
             <div class="game-card text-center">
                 <i class="fa-solid fa-fire" style="font-size: 2rem; color: #ff4400; margin-bottom: 0.5rem;"></i>
                 <div style="font-size: 0.8rem; color: #888;">STREAK</div>
-                <div style="font-size: 1.2rem; font-weight: bold;">5 DAYS</div>
+                <div style="font-size: 1.2rem; font-weight: bold;" id="stat-streak">0 DAYS</div>
             </div>
         </div>
 
@@ -59,7 +59,8 @@
     <!-- RIGHT COLUMN -->
     <div>
         <!-- Daily Challenge -->
-        <div class="game-card" style="border-color: var(--term-gold); box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);">
+        <div class="game-card" id="daily-challenge-container"
+            style="border-color: var(--term-gold); box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);">
             <div
                 style="position: absolute; top: 0; right: 0; background: var(--term-gold); color: #000; padding: 2px 8px; font-size: 0.7rem; font-weight: bold;">
                 DAILY</div>
@@ -67,25 +68,26 @@
 
             <div style="text-align: center; margin: 1.5rem 0;">
                 <i class="fa-solid fa-brain" style="font-size: 3rem; color: #fff; margin-bottom: 1rem;"></i>
-                <h3 style="margin: 0;">INTEGRAL MASTER</h3>
-                <p style="font-size: 0.9rem; color: #aaa;">Solve 5 definite integrals perfectly.</p>
+                <h3 style="margin: 0;" id="challenge-title">LOADING...</h3>
+                <p style="font-size: 0.9rem; color: #aaa;" id="challenge-desc">Fetching daily challenge...</p>
             </div>
 
-            <button class="btn-game" style="width: 100%; border-color: var(--term-gold); color: var(--term-gold);">
+            <button class="btn-game" id="btn-challenge"
+                style="width: 100%; border-color: var(--term-gold); color: var(--term-gold); display: none;">
                 [ ACCEPT CHALLENGE ]
             </button>
         </div>
 
         <!-- Course Progress -->
-        <div class="game-card mt-4">
+        <div class="game-card mt-4" id="active-course-container" style="display: none;">
             <h2 class="card-title">ACTIVE_COURSE</h2>
             <div style="margin-bottom: 5px; display: flex; justify-content: space-between; font-size: 0.9rem;">
-                <span>Linear Algebra</span>
-                <span>75%</span>
+                <span id="course-name">Loading...</span>
+                <span id="course-percent-text">0%</span>
             </div>
             <div style="width: 100%; background: #222; height: 6px; border-radius: 3px;">
-                <div
-                    style="width: 75%; background: var(--term-green); height: 100%; border-radius: 3px; box-shadow: 0 0 5px var(--term-green);">
+                <div id="course-progress-bar"
+                    style="width: 0%; background: var(--term-green); height: 100%; border-radius: 3px; box-shadow: 0 0 5px var(--term-green);">
                 </div>
             </div>
 
@@ -93,4 +95,8 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/inicio.js') }}"></script>
 {% endblock %}

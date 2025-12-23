@@ -12,8 +12,8 @@ def serialize_user(user_data):
         'Tipo': user_data.get('Tipo', 'Usuario'), 
         'Nombres': user_data.get('Nombres'),
         'Apellidos': user_data.get('Apellidos'),
-        'DNI': user_data.get('DNI'),
-        'Correo': user_data.get('Correo'),
+        'Dni': user_data.get('Dni'),
+        'Email': user_data.get('Email'),
         'Roles': []
     }
 

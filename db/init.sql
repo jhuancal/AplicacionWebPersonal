@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS tienda;
-USE tienda;
+CREATE DATABASE IF NOT EXISTS mates;
+USE mates;
 
 -- =======================================================
 -- 1. AUTENTICACION Y PERSONAS
@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS Adm_Persona (
     Id CHAR(36) NOT NULL PRIMARY KEY,
     Nombres VARCHAR(100),
     Apellidos VARCHAR(100),
+    Dni VARCHAR(8),
     FechaNacimiento DATE,
     Email VARCHAR(150),
     EstudioNivel VARCHAR(50), -- Primaria, Secundaria, Universidad
@@ -252,3 +253,19 @@ INSERT IGNORE INTO Gam_Temporada (Id, Nombre, FechaInicio, FechaFin, ESTADO) VAL
 -- 5. Ranking Inicial Admin
 INSERT IGNORE INTO Gam_RangoJugadorTemporada (Id, IdJugador, IdTemporada, Rango, PuntosTemporada) VALUES
 ('R-ADMIN-001', 'J-ADMIN-001', 'S-2025-Q1', 'ORO', 1250);
+
+-- 6. Experiencia Jugador
+INSERT IGNORE INTO Gam_ExperienciaJugador (Id, IdJugador, TotalExp) VALUES
+('EXP-ADMIN-001', 'J-ADMIN-001', 12450);
+
+-- 7. Racha Jugador
+INSERT IGNORE INTO Gam_RachaJugador (Id, IdJugador, RachaActual, RachaMaxima, UltimoIngreso) VALUES
+('STR-ADMIN-001', 'J-ADMIN-001', 5, 12, CURDATE());
+
+-- 8. Desafio Diario
+INSERT IGNORE INTO Gam_DesafioJugador (Id, IdJugador, FocoPrincipal, Contenido, Estado, FechaAsignacion) VALUES
+('CH-ADMIN-001', 'J-ADMIN-001', 'INTEGRAL MASTER', '{"description": "Solve 5 definite integrals perfectly.", "target": 5, "current": 0}', 'PENDIENTE', CURDATE());
+
+-- 9. Avance Curso
+INSERT IGNORE INTO Edu_AvanceCursoJugador (Id, IdJugador, IdCurso, NivelActual, PorcentajeAvance) VALUES
+('PROG-ADMIN-001', 'J-ADMIN-001', 'C-ALG-001', 5, 75.00);
