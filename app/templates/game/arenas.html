@@ -1,0 +1,59 @@
+{% extends "layouts/game_base.html" %}
+
+{% block title %}Arenas | Math Arena{% endblock %}
+
+{% block content %}
+<h1 class="card-title" style="font-size: 2rem; border: none; text-align: center; margin-bottom: 2rem;">
+    CHOOSE_YOUR_BATTLEFIELD</h1>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+    <!-- PRACTICE MODE -->
+    <div class="game-card" style="border-color: var(--term-blue); box-shadow: 0 0 15px rgba(0, 191, 255, 0.1);">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <i class="fa-solid fa-graduation-cap" style="font-size: 4rem; color: var(--term-blue);"></i>
+            <h2 style="color: var(--term-blue); margin-top: 1rem;">TRAINING_V1</h2>
+            <p style="color: #888;">Infinite exercises. No pressure. Hone your skills.</p>
+        </div>
+
+        <form>
+            <label style="display: block; margin-bottom: 0.5rem; color: var(--term-blue);">SELECT_MODULE:</label>
+            <select
+                style="width: 100%; padding: 10px; background: #000; color: #fff; border: 1px solid var(--term-blue); margin-bottom: 2rem; font-family: inherit;">
+                <option>ALL_AVAILABLE</option>
+                <option>Algebra I</option>
+                <option>Geometry</option>
+                <option>Calculus I</option>
+            </select>
+
+            <button class="btn-game" style="width: 100%; border-color: var(--term-blue); color: var(--term-blue);">
+                [ START_TRAINING ]
+            </button>
+        </form>
+    </div>
+
+    <!-- COMPETITIVE MODE -->
+    <div class="game-card" style="border-color: #ff3333; box-shadow: 0 0 15px rgba(255, 51, 51, 0.1);">
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <i class="fa-solid fa-trophy" style="font-size: 4rem; color: #ff3333;"></i>
+            <h2 style="color: #ff3333; margin-top: 1rem;">RANKED_MATCH</h2>
+            <p style="color: #888;">Compete against others. Gain LP. Rise in Rank.</p>
+        </div>
+
+        <form>
+            <label style="display: block; margin-bottom: 0.5rem; color: #ff3333;">INCLUDE_IN_POOL:</label>
+            <div
+                style="background: #000; border: 1px solid #ff3333; padding: 10px; height: 80px; overflow-y: scroll; margin-bottom: 2rem;">
+                <!-- Mock Multiselect -->
+                <div style="margin-bottom: 5px;"><input type="checkbox" checked> Algebra I</div>
+                <div style="margin-bottom: 5px;"><input type="checkbox" checked> Geometry</div>
+                <div style="margin-bottom: 5px;"><input type="checkbox"> Calculus I</div>
+                <div style="margin-bottom: 5px;"><input type="checkbox"> Statistics</div>
+            </div>
+
+            <button class="btn-game" style="width: 100%; border-color: #ff3333; color: #ff3333;">
+                [ FIND_MATCH ]
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Math Arena{% endblock %}</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Game Theme CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game_theme.css') }}">
+    {% block styles %}{% endblock %}
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- HEADER / NAVBAR -->
+        <header class="game-header">
+            <div class="logo-area">
+                <i class="fa-solid fa-square-root-variable"></i>
+                <span style="letter-spacing: 2px;">MATH_ARENA</span>
+            </div>
+
+            <nav class="nav-links">
+                <a href="{{ url_for('admin.dashboard') }}"
+                    class="nav-item {{ 'active' if request.endpoint == 'admin.dashboard' else '' }}">
+                    [ INICIO ]
+                </a>
+                <a href="{{ url_for('admin.cursos') }}"
+                    class="nav-item {{ 'active' if request.endpoint == 'admin.cursos' else '' }}">
+                    [ CURSOS ]
+                </a>
+                <a href="{{ url_for('admin.arenas') }}"
+                    class="nav-item {{ 'active' if request.endpoint == 'admin.arenas' else '' }}">
+                    [ ARENAS ]
+                </a>
+                <a href="{{ url_for('admin.ranking') }}"
+                    class="nav-item {{ 'active' if request.endpoint == 'admin.ranking' else '' }}">
+                    [ RANKING ]
+                </a>
+                <a href="{{ url_for('admin.perfil') }}"
+                    class="nav-item {{ 'active' if request.endpoint == 'admin.perfil' else '' }}">
+                    [ PERFIL ]
+                </a>
+            </nav>
+
+            <div class="user-hud">
+                <div class="hud-stat">
+                    <span>POINTS</span>
+                    <span class="stat-value">1,250</span> <!-- Dynamic Variable later -->
+                </div>
+
+                <div class="profile-frame" title="Rank: Gold">
+                    <!-- Placeholder Avatar -->
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed={{ user.Username if user else 'Player' }}"
+                        alt="Profile">
+                </div>
+
+                <a href="{{ url_for('admin.logout') }}" class="logout-btn" title="Cerrar Sesión">
+                    <i class="fa-solid fa-power-off"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="game-footer">
+            <p>SYSTEM.VER.2.0 | MATH_ARENA INC. © 2024</p>
+        </footer>
+    </div>
+
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

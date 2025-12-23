@@ -9,16 +9,13 @@ from db import get_db_connection
 from auth.decorators import login_required
 
 from repositories.producto import ProductoRepository
-from repositories.usuario import UsuarioRepository
+from repositories.producto import ProductoRepository
+from repositories.jugador import JugadorRepository
 from repositories.persona import PersonaRepository
-from repositories.cliente import ClienteRepository
-from repositories.colaborador import ColaboradorRepository
 
-from entities.usuario import Usuario
+from entities.jugador import Jugador
 from entities.producto import Producto
 from entities.persona import Persona
-from entities.cliente import Cliente
-from entities.colaborador import Colaborador
 
 from auth.auth_service import AuthService
 
@@ -66,10 +63,34 @@ def register():
     return render_template("auth/register.html")
 
 @admin_bp.route("/admin/dashboard")
-@login_required # Kept for double safety, though before_request handles it too
+@login_required 
 def dashboard():
     user = session.get('user_data')
-    return render_template("dashboard.html", user=user)
+    return render_template("game/inicio.html", user=user)
+
+@admin_bp.route("/admin/cursos")
+@login_required 
+def cursos():
+    user = session.get('user_data')
+    return render_template("game/cursos.html", user=user)
+
+@admin_bp.route("/admin/arenas")
+@login_required 
+def arenas():
+    user = session.get('user_data')
+    return render_template("game/arenas.html", user=user)
+
+@admin_bp.route("/admin/ranking")
+@login_required 
+def ranking():
+    user = session.get('user_data')
+    return render_template("game/ranking.html", user=user)
+
+@admin_bp.route("/admin/perfil")
+@login_required 
+def perfil():
+    user = session.get('user_data')
+    return render_template("game/perfil.html", user=user)
 
 # Admin Pages Routes
 @admin_bp.route("/admin/administracion/producto")
@@ -89,18 +110,6 @@ def admin_usuario():
 def admin_persona():
     user = session.get('user_data')
     return render_template("admin/Administracion/persona.html", user=user)
-
-@admin_bp.route("/admin/seguridad/cliente")
-@login_required
-def admin_cliente():
-    user = session.get('user_data')
-    return render_template("admin/Seguridad/cliente.html", user=user)
-
-@admin_bp.route("/admin/seguridad/colaborador")
-@login_required
-def admin_colaborador():
-    user = session.get('user_data')
-    return render_template("admin/Seguridad/colaborador.html", user=user)
 
 
 @admin_bp.route("/edit_product/<string:id>")
@@ -142,14 +151,10 @@ def update_product(id):
 def get_repo_and_entity(entity_name, conn):
     if entity_name == 'adm_administracion_producto':
         return ProductoRepository(conn), Producto
-    elif entity_name == 'seg_seguridad_usuario':
-        return UsuarioRepository(conn), Usuario
+    elif entity_name == 'seg_seguridad_jugador':
+        return JugadorRepository(conn), Jugador
     elif entity_name == 'adm_administracion_persona':
         return PersonaRepository(conn), Persona
-    elif entity_name == 'seg_seguridad_cliente':
-        return ClienteRepository(conn), Cliente
-    elif entity_name == 'seg_seguridad_colaborador':
-        return ColaboradorRepository(conn), Colaborador
     return None, None
 
 # Generic CRUD APIs

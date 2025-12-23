@@ -1,0 +1,96 @@
+{% extends "layouts/game_base.html" %}
+
+{% block title %}Dashboard | Math Arena{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+
+    <!-- LEFT COLUMN -->
+    <div>
+        <h1 class="card-title" style="font-size: 2rem; border: none;">WELCOME_BACK, {{ user.Username if user else
+            'PLAYER' }}</h1>
+        <p style="color: #888; margin-bottom: 2rem;">>> SYSTEM READY. EXERCISES LOADED. RANKING SYNCHRONIZED.</p>
+
+        <!-- Stats Grid -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem;">
+            <div class="game-card text-center">
+                <i class="fa-solid fa-trophy"
+                    style="font-size: 2rem; color: var(--term-gold); margin-bottom: 0.5rem;"></i>
+                <div style="font-size: 0.8rem; color: #888;">CURRENT RANK</div>
+                <div style="font-size: 1.2rem; font-weight: bold;">GOLD III</div>
+            </div>
+            <div class="game-card text-center">
+                <i class="fa-solid fa-bolt"
+                    style="font-size: 2rem; color: var(--term-blue); margin-bottom: 0.5rem;"></i>
+                <div style="font-size: 0.8rem; color: #888;">TOTAL XP</div>
+                <div style="font-size: 1.2rem; font-weight: bold;">12,450</div>
+            </div>
+            <div class="game-card text-center">
+                <i class="fa-solid fa-fire" style="font-size: 2rem; color: #ff4400; margin-bottom: 0.5rem;"></i>
+                <div style="font-size: 0.8rem; color: #888;">STREAK</div>
+                <div style="font-size: 1.2rem; font-weight: bold;">5 DAYS</div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="game-card">
+            <h2 class="card-title">RECENT_LOGS</h2>
+            <ul style="font-size: 0.9rem;">
+                <li
+                    style="padding: 10px 0; border-bottom: 1px solid #222; display: flex; justify-content: space-between;">
+                    <span><i class="fa-solid fa-check" style="color: var(--term-green);"></i> Completed "Algebra
+                        Basics"</span>
+                    <span style="color: #666;">2 hours ago</span>
+                </li>
+                <li
+                    style="padding: 10px 0; border-bottom: 1px solid #222; display: flex; justify-content: space-between;">
+                    <span><i class="fa-solid fa-swords" style="color: #ff3333;"></i> Arena Match vs. @DrMath</span>
+                    <span style="color: #666;">Yesterday</span>
+                </li>
+                <li style="padding: 10px 0; display: flex; justify-content: space-between;">
+                    <span><i class="fa-solid fa-arrow-up" style="color: var(--term-blue);"></i> Rank Up: Silver ->
+                        Gold</span>
+                    <span style="color: #666;">2 days ago</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div>
+        <!-- Daily Challenge -->
+        <div class="game-card" style="border-color: var(--term-gold); box-shadow: 0 0 10px rgba(255, 215, 0, 0.1);">
+            <div
+                style="position: absolute; top: 0; right: 0; background: var(--term-gold); color: #000; padding: 2px 8px; font-size: 0.7rem; font-weight: bold;">
+                DAILY</div>
+            <h2 class="card-title" style="color: var(--term-gold); border-color: var(--term-gold);">DAILY_CHALLENGE</h2>
+
+            <div style="text-align: center; margin: 1.5rem 0;">
+                <i class="fa-solid fa-brain" style="font-size: 3rem; color: #fff; margin-bottom: 1rem;"></i>
+                <h3 style="margin: 0;">INTEGRAL MASTER</h3>
+                <p style="font-size: 0.9rem; color: #aaa;">Solve 5 definite integrals perfectly.</p>
+            </div>
+
+            <button class="btn-game" style="width: 100%; border-color: var(--term-gold); color: var(--term-gold);">
+                [ ACCEPT CHALLENGE ]
+            </button>
+        </div>
+
+        <!-- Course Progress -->
+        <div class="game-card mt-4">
+            <h2 class="card-title">ACTIVE_COURSE</h2>
+            <div style="margin-bottom: 5px; display: flex; justify-content: space-between; font-size: 0.9rem;">
+                <span>Linear Algebra</span>
+                <span>75%</span>
+            </div>
+            <div style="width: 100%; background: #222; height: 6px; border-radius: 3px;">
+                <div
+                    style="width: 75%; background: var(--term-green); height: 100%; border-radius: 3px; box-shadow: 0 0 5px var(--term-green);">
+                </div>
+            </div>
+
+            <button class="btn-game mt-4" style="width: 100%;">[ CONTINUE ]</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "layouts/game_base.html" %}
+
+{% block title %}Cursos | Math Arena{% endblock %}
+
+{% block content %}
+<h1 class="card-title" style="font-size: 2rem; border: none; margin-bottom: 2rem;">ENROLLED_COURSES</h1>
+
+<!-- Courses Grid -->
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+
+    <!-- Course Card 1 -->
+    <div class="game-card">
+        <div
+            style="height: 120px; background: linear-gradient(45deg, #1a2a6c, #b21f1f, #fdbb2d); margin: -1.5rem -1.5rem 1.5rem -1.5rem; display: flex; align-items: center; justify-content: center;">
+            <i class="fa-solid fa-superscript" style="font-size: 3rem; color: rgba(255,255,255,0.8);"></i>
+        </div>
+        <h2 style="margin: 0 0 0.5rem 0;">ALGEBRA_I</h2>
+        <p style="font-size: 0.9rem; color: #888; min-height: 40px;">Fundamental structures, polynomials, and equations.
+        </p>
+
+        <div
+            style="margin-top: 1rem; border-top: 1px solid #333; padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: var(--term-green); font-size: 0.8rem;">LEVEL: BEGINNER</span>
+            <button class="btn-game">[ ENTER ]</button>
+        </div>
+    </div>
+
+    <!-- Course Card 2 -->
+    <div class="game-card">
+        <div
+            style="height: 120px; background: linear-gradient(45deg, #000428, #004e92); margin: -1.5rem -1.5rem 1.5rem -1.5rem; display: flex; align-items: center; justify-content: center;">
+            <i class="fa-solid fa-shapes" style="font-size: 3rem; color: rgba(255,255,255,0.8);"></i>
+        </div>
+        <h2 style="margin: 0 0 0.5rem 0;">GEOMETRY</h2>
+        <p style="font-size: 0.9rem; color: #888; min-height: 40px;">Spatial properties, shapes, and theorems.</p>
+
+        <div
+            style="margin-top: 1rem; border-top: 1px solid #333; padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: var(--term-blue); font-size: 0.8rem;">LEVEL: INTERMEDIATE</span>
+            <button class="btn-game">[ ENTER ]</button>
+        </div>
+    </div>
+
+    <!-- Course Card 3 -->
+    <div class="game-card">
+        <div
+            style="height: 120px; background: linear-gradient(45deg, #11998e, #38ef7d); margin: -1.5rem -1.5rem 1.5rem -1.5rem; display: flex; align-items: center; justify-content: center;">
+            <i class="fa-solid fa-infinity" style="font-size: 3rem; color: rgba(255,255,255,0.8);"></i>
+        </div>
+        <h2 style="margin: 0 0 0.5rem 0;">CALCULUS_I</h2>
+        <p style="font-size: 0.9rem; color: #888; min-height: 40px;">Limits, derivatives, and rate of change.</p>
+
+        <div
+            style="margin-top: 1rem; border-top: 1px solid #333; padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <span style="color: #ff3333; font-size: 0.8rem;">LEVEL: ADVANCED</span>
+            <button class="btn-game">[ ENTER ]</button>
+        </div>
+    </div>
+
+    <!-- ADD Card -->
+    <div class="game-card"
+        style="border-style: dashed; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0.5; min-height: 300px; cursor: pointer;">
+        <i class="fa-solid fa-plus-circle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+        <span>EXPLORE MORE</span>
+    </div>
+
+</div>
+{% endblock %}

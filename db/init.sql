@@ -1,135 +1,254 @@
+CREATE DATABASE IF NOT EXISTS tienda;
+USE tienda;
+
+-- =======================================================
+-- 1. AUTENTICACION Y PERSONAS
+-- =======================================================
 
 CREATE TABLE IF NOT EXISTS Adm_Persona (
     Id CHAR(36) NOT NULL PRIMARY KEY,
     Nombres VARCHAR(100),
     Apellidos VARCHAR(100),
-    DNI VARCHAR(20) NOT NULL UNIQUE,
-    Correo VARCHAR(100) NOT NULL UNIQUE,
-    RowVersion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    ESTADO BIT NOT NULL,
-    DISPONIBILIDAD BIT NOT NULL,
-    FECHA_CREACION BIGINT NOT NULL,
-    FECHA_MODIFICACION BIGINT NOT NULL,
-    USER_CREACION TEXT,
-    USER_MODIFICACION TEXT
+    FechaNacimiento DATE,
+    Email VARCHAR(150),
+    EstudioNivel VARCHAR(50), -- Primaria, Secundaria, Universidad
+    Institucion VARCHAR(150),
+    -- System Fields
+    ESTADO BIT DEFAULT 1,
+    FECHA_CREACION BIGINT,
+    FECHA_MODIFICACION BIGINT,
+    USER_CREACION VARCHAR(50),
+    USER_MODIFICACION VARCHAR(50)
 );
 
-CREATE TABLE IF NOT EXISTS Seg_Rol (
+CREATE TABLE IF NOT EXISTS Seg_Jugador (
     Id CHAR(36) NOT NULL PRIMARY KEY,
-    Nombre TEXT,
-    Descripcion TEXT,
-    RowVersion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    ESTADO BIT NOT NULL,
-    DISPONIBILIDAD BIT NOT NULL,
-    FECHA_CREACION BIGINT NOT NULL,
-    FECHA_MODIFICACION BIGINT NOT NULL,
-    USER_CREACION TEXT,
-    USER_MODIFICACION TEXT
-);
-
-CREATE TABLE IF NOT EXISTS Seg_Acceso (
-    Id CHAR(36) NOT NULL PRIMARY KEY,
-    Orden INT,
-    Codigo VARCHAR(4),
-    Nombre VARCHAR(100),
-    Descripcion TEXT,
-    Tipo VARCHAR(100),
-    Nivel INT,
-    Padre VARCHAR(4),
-    RowVersion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    ESTADO BIT NOT NULL,
-    DISPONIBILIDAD BIT NOT NULL,
-    FECHA_CREACION BIGINT NOT NULL,
-    FECHA_MODIFICACION BIGINT NOT NULL,
-    USER_CREACION TEXT,
-    USER_MODIFICACION TEXT,
-    UrlAcceso TEXT
-);
-
-CREATE TABLE IF NOT EXISTS Seg_Rol_Acceso (
-    Id CHAR(36) NOT NULL PRIMARY KEY,
-    IdRol CHAR(36) NOT NULL,
-    Codigo TEXT,
-    Valor TEXT,
-    Tipo TEXT,
-    IdAccesoUno CHAR(36) NOT NULL,
-    IdAccesoDos CHAR(36) NOT NULL,
-    RowVersion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    ESTADO BIT NOT NULL,
-    DISPONIBILIDAD BIT NOT NULL,
-    FECHA_CREACION BIGINT NOT NULL,
-    FECHA_MODIFICACION BIGINT NOT NULL,
-    USER_CREACION TEXT,
-    USER_MODIFICACION TEXT,
-    FOREIGN KEY (IdRol) REFERENCES Seg_Rol(Id),
-    FOREIGN KEY (IdAccesoUno) REFERENCES Seg_Acceso(Id),
-    FOREIGN KEY (IdAccesoDos) REFERENCES Seg_Acceso(Id)
-);
-
-CREATE TABLE IF NOT EXISTS Seg_Usuario (
-    Id CHAR(36) NOT NULL PRIMARY KEY,
-    NombreUsuario VARCHAR(255) NOT NULL,
-    Contrasena VARCHAR(255) NOT NULL,
-    IdPersona CHAR(36) NULL,
-    RowVersion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    ESTADO BIT NOT NULL,
-    DISPONIBILIDAD BIT NOT NULL,
-    FECHA_CREACION BIGINT NOT NULL,
-    FECHA_MODIFICACION BIGINT NOT NULL,
-    USER_CREACION TEXT,
-    USER_MODIFICACION TEXT,
+    IdPersona CHAR(36),
+    Username VARCHAR(50) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(255) NOT NULL, -- Storing plain for dev for now as per previous setup
+    FechaRegistro BIGINT,
+    EstadoCuenta VARCHAR(20) DEFAULT 'ACTIVO', -- ACTIVO, SUSPENDIDO
+    -- System Fields
+    ESTADO BIT DEFAULT 1,
+    FECHA_CREACION BIGINT,
+    FECHA_MODIFICACION BIGINT,
+    USER_CREACION VARCHAR(50),
+    USER_MODIFICACION VARCHAR(50),
     FOREIGN KEY (IdPersona) REFERENCES Adm_Persona(Id)
 );
 
-CREATE TABLE IF NOT EXISTS Seg_Usuario_Rol (
+-- =======================================================
+-- 2. ESTADISTICAS Y PROGRESION
+-- =======================================================
+
+CREATE TABLE IF NOT EXISTS Gam_Temporada (
     Id CHAR(36) NOT NULL PRIMARY KEY,
-    IdUsuario CHAR(36) NOT NULL,
-    IdRol CHAR(36) NOT NULL,
-    RowVersion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    ESTADO BIT NOT NULL,
-    DISPONIBILIDAD BIT NOT NULL,
-    FECHA_CREACION BIGINT NOT NULL,
-    FECHA_MODIFICACION BIGINT NOT NULL,
-    USER_CREACION TEXT,
-    USER_MODIFICACION TEXT,
-    FOREIGN KEY (IdUsuario) REFERENCES Seg_Usuario(Id),
-    FOREIGN KEY (IdRol) REFERENCES Seg_Rol(Id)
+    Nombre VARCHAR(50), -- "2025-Q1"
+    FechaInicio DATE,
+    FechaFin DATE,
+    ESTADO BIT DEFAULT 1
 );
 
+CREATE TABLE IF NOT EXISTS Gam_RangoJugadorTemporada (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdJugador CHAR(36) NOT NULL,
+    IdTemporada CHAR(36) NOT NULL,
+    Rango VARCHAR(20), -- BRONCE, PLATA, ORO
+    PuntosTemporada INT DEFAULT 0,
+    FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id),
+    FOREIGN KEY (IdTemporada) REFERENCES Gam_Temporada(Id)
+);
 
-INSERT INTO Seg_Rol (Id, Nombre, Descripcion, ESTADO, DISPONIBILIDAD, FECHA_CREACION, FECHA_MODIFICACION, USER_CREACION, USER_MODIFICACION) VALUES
-('11111111-1111-1111-1111-111111111111', 'Administrador', 'Administrador del sistema', 1, 1, 1725375954790, 1725375954790, 'Admin', 'Admin'),
-('22222222-2222-2222-2222-222222222222', 'Empleado', 'Empleado de ventas', 1, 1, 1725375954790, 1725375954790, 'Admin', 'Admin');
+CREATE TABLE IF NOT EXISTS Gam_ExperienciaJugador (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdJugador CHAR(36) NOT NULL,
+    TotalExp INT DEFAULT 0,
+    ExpPorCurso JSON, -- Flexible storage
+    FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
+);
 
-INSERT INTO Seg_Acceso (Id, Orden, Codigo, Nombre, Descripcion, Tipo, Nivel, Padre, ESTADO, DISPONIBILIDAD, FECHA_CREACION, FECHA_MODIFICACION, USER_CREACION, USER_MODIFICACION, UrlAcceso) VALUES
-('00000000-0000-0000-0000-000000000000', 0, 'NULL', 'NULL', 'NULL', 'NULL', 0, 'NULL', 0, 0, 0, 0, 'SYS', 'SYS', ''),
-('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 1, 'ADMI', 'Administracion', 'Modulo de Administracion', 'ADMIN', 1, 'TODO', 1, 1, 1725375954790, 1725375954790, 'Admin', 'Admin', ''),
-('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 2, 'DASH', 'Dashboard', 'Dashboard Administrativo', 'ADMIN', 2, 'ADMI', 1, 1, 1725375954790, 1725375954790, 'Admin', 'Admin', '/admin/dashboard'),
-('cccccccc-cccc-cccc-cccc-cccccccccccc', 3, 'PROD', 'Productos', 'Gestion de Productos', 'ADMIN', 2, 'ADMI', 1, 1, 1725375954790, 1725375954790, 'Admin', 'Admin', '/edit_product/1');
+CREATE TABLE IF NOT EXISTS Gam_PuntajeJugador (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdJugador CHAR(36) NOT NULL,
+    PuntajeTotal INT DEFAULT 0,
+    FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
+);
 
-INSERT INTO Seg_Rol_Acceso (Id, IdRol, Codigo, Valor, Tipo, IdAccesoUno, IdAccesoDos, ESTADO, DISPONIBILIDAD, FECHA_CREACION, FECHA_MODIFICACION, USER_CREACION, USER_MODIFICACION) VALUES
-(UUID(), '11111111-1111-1111-1111-111111111111', 'ADMITODO', 'S', 'ADMIN', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '00000000-0000-0000-0000-000000000000', 1, 1, 1725375954790, 1725375954790, 'Admin', 'Admin'),
-(UUID(), '11111111-1111-1111-1111-111111111111', 'ADMIDASH', 'S', 'ADMIN', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 1, 1, 1725375954790, 1725375954790, 'Admin', 'Admin'),
-(UUID(), '11111111-1111-1111-1111-111111111111', 'ADMIPROD', 'S', 'ADMIN', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'cccccccc-cccc-cccc-cccc-cccccccccccc', 1, 1, 1725375954790, 1725375954790, 'Admin', 'Admin'),
-(UUID(), '22222222-2222-2222-2222-222222222222', 'ADMITODO', 'S', 'ADMIN', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '00000000-0000-0000-0000-000000000000', 1, 1, 1725375954790, 1725375954790, 'Admin', 'Admin'),
-(UUID(), '22222222-2222-2222-2222-222222222222', 'ADMIDASH', 'S', 'ADMIN', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 1, 1, 1725375954790, 1725375954790, 'Admin', 'Admin'),
-(UUID(), '22222222-2222-2222-2222-222222222222', 'ADMIPROD', 'N', 'ADMIN', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'cccccccc-cccc-cccc-cccc-cccccccccccc', 1, 1, 1725375954790, 1725375954790, 'Admin', 'Admin');
+CREATE TABLE IF NOT EXISTS Gam_RachaJugador (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdJugador CHAR(36) NOT NULL,
+    RachaActual INT DEFAULT 0,
+    RachaMaxima INT DEFAULT 0,
+    UltimoIngreso DATE,
+    FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
+);
 
-INSERT INTO Seg_Usuario (Id, NombreUsuario, Contrasena, IdPersona, ESTADO, DISPONIBILIDAD, FECHA_CREACION, FECHA_MODIFICACION, USER_CREACION, USER_MODIFICACION) VALUES
-('33333333-3333-3333-3333-333333333333', 'admin', 'admin', NULL, 1, 1, 1725375954790, 1725375954790, 'SYS', 'SYS'),
-('44444444-4444-4444-4444-444444444444', 'user', '1234', NULL, 1, 1, 1725375954790, 1725375954790, 'SYS', 'SYS');
+CREATE TABLE IF NOT EXISTS Gam_DesafioJugador (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdJugador CHAR(36) NOT NULL,
+    FocoPrincipal VARCHAR(100),
+    Contenido JSON,
+    Estado VARCHAR(20), -- PENDIENTE, COMPLETADO
+    FechaAsignacion DATE,
+    FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
+);
 
-INSERT INTO Seg_Usuario_Rol (Id, IdUsuario, IdRol, ESTADO, DISPONIBILIDAD, FECHA_CREACION, FECHA_MODIFICACION, USER_CREACION, USER_MODIFICACION) VALUES
-(UUID(), '33333333-3333-3333-3333-333333333333', '11111111-1111-1111-1111-111111111111', 1, 1, 1725375954790, 1725375954790, 'SYS', 'SYS'),
-(UUID(), '44444444-4444-4444-4444-444444444444', '22222222-2222-2222-2222-222222222222', 1, 1, 1725375954790, 1725375954790, 'SYS', 'SYS');
+-- =======================================================
+-- 3. CURSOS Y CONTENIDO
+-- =======================================================
 
-INSERT INTO Adm_Persona (Id, Nombres, Apellidos, DNI, Correo, ESTADO, DISPONIBILIDAD, FECHA_CREACION, FECHA_MODIFICACION, USER_CREACION, USER_MODIFICACION) VALUES
-('P1111111-1111-1111-1111-111111111111', 'Abel', 'D', '77777777', 'abel@mail.com', 1, 1, 0, 0, 'SYS', 'SYS'), -- Dual
-('P2222222-2222-2222-2222-222222222222', 'Bruno', 'C', '88888888', 'bruno@mail.com', 1, 1, 0, 0, 'SYS', 'SYS'), -- Client Only
-('P3333333-3333-3333-3333-333333333333', 'Carlos', 'E', '99999999', 'carlos@mail.com', 1, 1, 0, 0, 'SYS', 'SYS'); -- Collab Only
+CREATE TABLE IF NOT EXISTS Edu_Curso (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    Nombre VARCHAR(100),
+    Descripcion TEXT,
+    Rama VARCHAR(50), -- Algebra, Geometria
+    Nivel VARCHAR(20), -- BASICO, INTERMEDIO, AVANZADO
+    UrlImagen VARCHAR(255),
+    ESTADO BIT DEFAULT 1
+);
 
-INSERT INTO Seg_Usuario (Id, NombreUsuario, Contrasena, IdPersona, ESTADO, DISPONIBILIDAD, FECHA_CREACION, FECHA_MODIFICACION, USER_CREACION, USER_MODIFICACION) VALUES
-('U1111111-1111-1111-1111-111111111111', 'abelcliente', '1234', 'P1111111-1111-1111-1111-111111111111', 1, 1, 0, 0, 'SYS', 'SYS'), -- Abel (Client)
-('U1111111-C111-1111-1111-111111111111', 'ws_abelAdmin', '1234', 'P1111111-1111-1111-1111-111111111111', 1, 1, 0, 0, 'SYS', 'SYS'), -- Abel (Collab)
-('U2222222-2222-2222-2222-222222222222', 'bruno', '1234', 'P2222222-2222-2222-2222-222222222222', 1, 1, 0, 0, 'SYS', 'SYS'), -- Bruno (Client)
-('U3333333-C333-3333-3333-333333333333', 'ws_carlos', '1234', 'P3333333-3333-3333-3333-333333333333', 1, 1, 0, 0, 'SYS', 'SYS'); -- Carlos (Collab)
+CREATE TABLE IF NOT EXISTS Edu_TemaCurso (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdCurso CHAR(36) NOT NULL,
+    Nombre VARCHAR(100),
+    Descripcion TEXT,
+    FOREIGN KEY (IdCurso) REFERENCES Edu_Curso(Id)
+);
+
+CREATE TABLE IF NOT EXISTS Edu_ExamenCurso (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdCurso CHAR(36) NOT NULL,
+    Preguntas JSON,
+    NotaMinima INT DEFAULT 70,
+    FOREIGN KEY (IdCurso) REFERENCES Edu_Curso(Id)
+);
+
+CREATE TABLE IF NOT EXISTS Edu_RecursoCurso (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdCurso CHAR(36) NOT NULL,
+    Tipo VARCHAR(20), -- FORMULA, PISTA
+    Contenido TEXT,
+    FOREIGN KEY (IdCurso) REFERENCES Edu_Curso(Id)
+);
+
+CREATE TABLE IF NOT EXISTS Edu_OperacionMatematica (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdCurso CHAR(36),
+    Nombre VARCHAR(50), -- +, -, Integral
+    FuncionSistema VARCHAR(100),
+    Formula TEXT,
+    Atributos JSON
+);
+
+CREATE TABLE IF NOT EXISTS Edu_MetodoResolucion (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdOperacion CHAR(36) NOT NULL,
+    Nombre VARCHAR(100),
+    Pasos JSON,
+    FOREIGN KEY (IdOperacion) REFERENCES Edu_OperacionMatematica(Id)
+);
+
+CREATE TABLE IF NOT EXISTS Edu_AvanceCursoJugador (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdJugador CHAR(36) NOT NULL,
+    IdCurso CHAR(36) NOT NULL,
+    NivelActual INT DEFAULT 1,
+    PorcentajeAvance DECIMAL(5,2) DEFAULT 0.0,
+    FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id),
+    FOREIGN KEY (IdCurso) REFERENCES Edu_Curso(Id)
+);
+
+-- =======================================================
+-- 4. EJERCICIOS
+-- =======================================================
+
+CREATE TABLE IF NOT EXISTS Edu_Ejercicio (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdCurso CHAR(36) NOT NULL,
+    IdTema CHAR(36),
+    IdOperacion CHAR(36),
+    Enunciado TEXT,
+    NivelDificultad INT,
+    RespuestaCorrecta TEXT,
+    FOREIGN KEY (IdCurso) REFERENCES Edu_Curso(Id),
+    FOREIGN KEY (IdTema) REFERENCES Edu_TemaCurso(Id),
+    FOREIGN KEY (IdOperacion) REFERENCES Edu_OperacionMatematica(Id)
+);
+
+CREATE TABLE IF NOT EXISTS Gam_IntentoEjercicioJugador (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdJugador CHAR(36) NOT NULL,
+    IdEjercicio CHAR(36) NOT NULL,
+    RespuestaJugador TEXT,
+    EsCorrecto BIT,
+    PuntosGanados INT,
+    FechaIntento BIGINT,
+    FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id),
+    FOREIGN KEY (IdEjercicio) REFERENCES Edu_Ejercicio(Id)
+);
+
+CREATE TABLE IF NOT EXISTS Gam_HistorialEjerciciosJugador (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdJugador CHAR(36) NOT NULL,
+    TotalEjerciciosResueltos INT DEFAULT 0,
+    PorcentajeExito DECIMAL(5,2) DEFAULT 0.0,
+    FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
+);
+
+-- =======================================================
+-- 5. COMPETENCIAS
+-- =======================================================
+
+CREATE TABLE IF NOT EXISTS Gam_Competencia (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    Tipo VARCHAR(20), -- ARENA, PRACTICA
+    Fecha BIGINT,
+    DuracionMinutos INT,
+    RamasIncluidas JSON,
+    ESTADO BIT DEFAULT 1
+);
+
+CREATE TABLE IF NOT EXISTS Gam_ParticipanteCompetencia (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdCompetencia CHAR(36) NOT NULL,
+    IdJugador CHAR(36) NOT NULL,
+    PuntosObtenidos INT DEFAULT 0,
+    PosicionFinal INT,
+    FOREIGN KEY (IdCompetencia) REFERENCES Gam_Competencia(Id),
+    FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
+);
+
+CREATE TABLE IF NOT EXISTS Gam_HistorialCompetenciasJugador (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdJugador CHAR(36) NOT NULL,
+    TotalCompetencias INT DEFAULT 0,
+    Victorias INT DEFAULT 0,
+    MejorPosicion INT,
+    FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
+);
+
+-- =======================================================
+-- SEED DATA
+-- =======================================================
+
+-- 1. Persona Admin
+INSERT IGNORE INTO Adm_Persona (Id, Nombres, Apellidos, Email, EstudioNivel, ESTADO, FECHA_CREACION) VALUES
+('P-ADMIN-001', 'Admin', 'User', 'admin@matharena.com', 'Universidad', 1, 1725375954790);
+
+-- 2. Jugador Admin (Using legacy password 'admin' for simplicity)
+INSERT IGNORE INTO Seg_Jugador (Id, IdPersona, Username, PasswordHash, FechaRegistro, EstadoCuenta, ESTADO, FECHA_CREACION) VALUES
+('J-ADMIN-001', 'P-ADMIN-001', 'admin', 'admin', 1725375954790, 'ACTIVO', 1, 1725375954790);
+
+-- 3. Cursos
+INSERT IGNORE INTO Edu_Curso (Id, Nombre, Descripcion, Rama, Nivel, ESTADO) VALUES
+('C-ALG-001', 'Algebra I', 'Fundamentos de algebra', 'Algebra', 'BASICO', 1),
+('C-GEO-001', 'Geometria Euclidiana', 'Figuras y Espacio', 'Geometria', 'INTERMEDIO', 1),
+('C-CAL-001', 'Calculo Diferencial', 'Limites y Derivadas', 'Calculo', 'AVANZADO', 1);
+
+-- 4. Temporada Actual
+INSERT IGNORE INTO Gam_Temporada (Id, Nombre, FechaInicio, FechaFin, ESTADO) VALUES
+('S-2025-Q1', 'Temporada 2025-Q1', '2025-01-01', '2025-03-31', 1);
+
+-- 5. Ranking Inicial Admin
+INSERT IGNORE INTO Gam_RangoJugadorTemporada (Id, IdJugador, IdTemporada, Rango, PuntosTemporada) VALUES
+('R-ADMIN-001', 'J-ADMIN-001', 'S-2025-Q1', 'ORO', 1250);
