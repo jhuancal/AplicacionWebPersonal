@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario | Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+
+<body>
+    <div class="background-grid"></div>
+    <div class="scanlines"></div>
+
+    <div class="login-container">
+        <div class="login-header">
+            <h1 class="login-title">NEW_USER</h1>
+            <div class="login-subtitle">>> Initialize New Protocol</div>
+        </div>
+
+        <div class="error-message"
+            style="display: block; border-color: var(--term-blue); color: var(--term-blue); background: rgba(0, 191, 255, 0.1);">
+            [INFO]: Registration module is currently in simulation mode.
+        </div>
+
+        <form action="#" method="POST">
+            <div class="form-group">
+                <label class="input-label" for="username">New.Identity</label>
+                <input type="text" id="username" name="username" class="input-field" placeholder="username" required
+                    autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label class="input-label" for="email">New.CommsLink</label>
+                <input type="email" id="email" name="email" class="input-field" placeholder="email@domain.com" required>
+            </div>
+
+            <div class="form-group">
+                <label class="input-label" for="password">Set.AccessKey</label>
+                <input type="password" id="password" name="password" class="input-field" placeholder="****" required>
+            </div>
+
+            <button type="button" class="submit-btn"
+                onclick="alert('Registration Simulation Complete. Please Login.'); window.location.href='{{ url_for('admin.login') }}'">
+                [ INITIALIZE_USER ]
+            </button>
+        </form>
+
+        <div class="links">
+            <a href="{{ url_for('admin.login') }}">[ << RETURN_TO_LOGIN ]</a>
+        </div>
+    </div>
+</body>
+
+</html>

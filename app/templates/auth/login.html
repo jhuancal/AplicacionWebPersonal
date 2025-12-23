@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso al Sistema | Authenticate</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+
+<body>
+    <div class="background-grid"></div>
+    <div class="floating-symbols" id="symbolsContainer">
+        <!-- Symbols injected via JS -->
+    </div>
+    <div class="scanlines"></div>
+
+    <div class="login-container">
+        <div class="login-header">
+            <h1 class="login-title">SYSTEM_LOGIN</h1>
+            <div class="login-subtitle">>> Enter Credentials to Initialize session</div>
+        </div>
+
+        {% if error %}
+        <div class="error-message" style="display: block;">
+            [ERROR]: {{ error }}
+        </div>
+        {% endif %}
+
+        <form action="{{ url_for('admin.login') }}" method="POST">
+            <div class="form-group">
+                <label class="input-label" for="username">User.Identity</label>
+                <input type="text" id="username" name="username" class="input-field" placeholder="admin" required
+                    autofocus autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label class="input-label" for="password">User.AccessKey</label>
+                <input type="password" id="password" name="password" class="input-field" placeholder="****" required>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                [ EXECUTE_LOGIN ]
+            </button>
+        </form>
+
+        <div class="links">
+            <a href="{{ url_for('admin.register') }}">[ NEW_USER_REGISTRATION ]</a>
+        </div>
+    </div>
+
+    <script>
+        // Generate floating symbols
+        const symbols = ['∫', '∑', 'π', '√', '∞', '≠', '≤', '≥', '{ }', '</>', '01', 'λ', 'f(x)'];
+        const container = document.getElementById('symbolsContainer');
+
+        function createSymbol() {
+            const el = document.createElement('div');
+            el.classList.add('symbol');
+            el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 10 + 10) + 's'; // 10-20s
+            el.style.fontSize = (Math.random() * 20 + 20) + 'px'; // 20-40px
+            container.appendChild(el);
+
+            // Cleanup
+            setTimeout(() => {
+                el.remove();
+            }, 20000);
+        }
+
+        setInterval(createSymbol, 800);
+
+        // Initial batch
+        for (let i = 0; i < 15; i++) createSymbol();
+    </script>
+</body>
+
+</html>
