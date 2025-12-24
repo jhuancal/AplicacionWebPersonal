@@ -1,53 +1,40 @@
-# 🌐 Proyecto Individual — Curso de Introducción al Desarrollo Web — UNSA
+# Math Arena - Gamified Educational Platform
 
-Este repositorio contiene el desarrollo de una página web personal como parte del curso de **Ingeniería de Sistemas** en la Universidad Nacional de San Agustín. El objetivo principal es aplicar los conceptos básicos de HTML, estructuración semántica y control de versiones con Git y GitHub.
+**URL del Proyecto:** [URL_DEL_PROYECTO_EN_RAILWAY]
 
-## 📁 Estructura del Proyecto
+## Descripción
+Math Arena es una plataforma web educativa gamificada diseñada para hacer del aprendizaje de las matemáticas una experiencia competitiva y atractiva. A través de un sistema de progresión basado en rangos, experiencia (XP) y rachas diarias, los usuarios pueden completar cursos, resolver desafíos y competir en "Arenas" de entrenamiento contra ejercicios generados proceduralmente. El objetivo es motivar a los estudiantes mediante mecánicas de juego aplicadas al estudio, fomentando la práctica constante y el dominio de temas como Álgebra, Geometría y Cálculo.
 
-El proyecto está organizado de forma sencilla para facilitar su evolución:
+## Tecnologías Utilizadas
+Para el desarrollo de este proyecto se han utilizado las siguientes tecnologías:
+*   **HTML**: Estructura semántica de la aplicación y vistas.
+*   **CSS**: Estilizado personalizado con diseño responsivo y temática "Gamer/Dark Mode".
+*   **JS (JavaScript)**: Lógica del cliente para el Dashboard dinámico, HUD de usuario y generador de ejercicios en tiempo real.
+*   **Python**: Lógica del backend utilizando el framework Flask para manejar rutas, autenticación y APIs REST.
+*   **SQL**: Gestión de base de datos relacional (MySQL) para persistencia de usuarios, progreso, cursos y estadísticas.
 
-- `index.html` → Página principal con contenido personal y académico.
-- `assets/` → Carpeta opcional para imágenes, estilos o recursos complementarios.
-- `resumen/` → Documento de texto o Markdown con el resumen del laboratorio.
+## Funcionalidades del Sistema
+El sistema cuenta con los siguientes módulos principales:
 
-## 🧪 Laboratorio Actual: Laboratorio 5 — HTML Semántico
+1.  **Dashboard Dinámico**:
+    *   Visualización en tiempo real de estadísticas del jugador: Rango actual (Bronce, Plata, Oro), Puntos de Experiencia (XP) y Racha de días consecutivos.
+    *   **Desafío Diario**: Misiones generadas aleatoriamente (ej. "Resolver 5 integrales") para ganar recompensas extra.
+    *   **Progreso de Curso**: Barra de seguimiento del curso activo actual.
 
-**Laboratorio 5: Aplicación de etiquetas semánticas**
+2.  **Sistema de Cursos**:
+    *   Catálogo de cursos disponibles (Álgebra I, Geometría, Cálculo).
+    *   **Vista Detallada del Curso**: Desglose por módulos/temas, lista de ejercicios prácticos y examen final para completar el curso.
 
-Objetivos:
-- Implementar etiquetas semánticas como `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<aside>` y `<footer>`.
-- Crear nuevas páginas temáticas que mantengan la coherencia del proyecto.
-- Mejorar la organización, accesibilidad y mantenibilidad del código.
+3.  **Arenas (Modo de Juego)**:
+    *   **Training Mode**: Generador infinito de ejercicios matemáticos (Suma de Polinomios, Ecuaciones Lineales) para cursos completados.
+    *   **Ranked Match**: Sistema competitivo (simulado) para subir de rango en la temporada.
+    *   Solo accesible una vez que el usuario ha completado el 100% del curso requisito.
 
-📌 *Este laboratorio se enfoca en estructurar el contenido de forma clara y significativa, aplicando buenas prácticas de HTML5.*
+4.  **Autenticación y Seguridad**:
+    *   Registro y Login de usuarios.
+    *   Protección de rutas administrativas y de juego mediante sesiones.
 
-**Laboratorio 4: Tablas, hipervínculos y navegación interna**
-
-Objetivos:
-- Incorporar tablas para organizar información comparativa.
-- Usar hipervínculos externos e internos para mejorar la navegación.
-- Consolidar la estructura semántica del sitio.
-
-📌 *Este laboratorio amplía el uso de HTML con elementos que mejoran la organización y accesibilidad del contenido.*
-
-**Laboratorio 3: Creación de una página web personal**
-
-Objetivos:
-- Crear una estructura básica en HTML.
-- Utilizar etiquetas semánticas como `<h1>`, `<p>`, `<h2>`, `<ul>`, `<ol>`, `<h3>`, `<h4>`.
-- Agregar comentarios en HTML para documentar el contenido.
-- Realizar commits progresivos que reflejen la evolución del proyecto.
-- Subir el repositorio local a GitHub y mantenerlo actualizado.
-
-📌 *Este laboratorio se enfoca en el uso correcto de etiquetas HTML y buenas prácticas de estructuración.*
-
-## 🚀 Próximos pasos
-
-- Añadir estilos con CSS en laboratorios posteriores.
-- Integrar interactividad básica con JavaScript.
-- Documentar el proceso de desarrollo en el archivo de resumen.
-
-## 👤 Autor
-
-```markdown
-- Jhoans Anthony Huanca Lupaca — Estudiante de Ingeniería de Sistemas — UNSA
+## Futuras Implementaciones
+*   **Multiplayer Real**: Implementar sockets para competencias 1v1 en tiempo real.
+*   **Tienda de Avatares**: Uso de los puntos ganados para personalizar el perfil del usuario.
+*   **Más Generadores**: Ampliar la lógica `ExerciseGeneratorService` para cubrir temas de Cálculo y Física.

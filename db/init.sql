@@ -1,9 +1,3 @@
--- Database selection is handled by the connection string
-
--- =======================================================
--- 1. AUTENTICACION Y PERSONAS
--- =======================================================
-
 CREATE TABLE IF NOT EXISTS Adm_Persona (
     Id CHAR(36) NOT NULL PRIMARY KEY,
     Nombres VARCHAR(100),
@@ -36,10 +30,6 @@ CREATE TABLE IF NOT EXISTS Seg_Jugador (
     USER_MODIFICACION VARCHAR(50),
     FOREIGN KEY (IdPersona) REFERENCES Adm_Persona(Id)
 );
-
--- =======================================================
--- 2. ESTADISTICAS Y PROGRESION
--- =======================================================
 
 CREATE TABLE IF NOT EXISTS Gam_Temporada (
     Id CHAR(36) NOT NULL PRIMARY KEY,
@@ -97,10 +87,6 @@ CREATE TABLE IF NOT EXISTS Gam_DesafioJugador (
     ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
 );
-
--- =======================================================
--- 3. CURSOS Y CONTENIDO
--- =======================================================
 
 CREATE TABLE IF NOT EXISTS Edu_Curso (
     Id CHAR(36) NOT NULL PRIMARY KEY,
@@ -169,10 +155,6 @@ CREATE TABLE IF NOT EXISTS Edu_AvanceCursoJugador (
     FOREIGN KEY (IdCurso) REFERENCES Edu_Curso(Id)
 );
 
--- =======================================================
--- 4. EJERCICIOS
--- =======================================================
-
 CREATE TABLE IF NOT EXISTS Edu_Ejercicio (
     Id CHAR(36) NOT NULL PRIMARY KEY,
     IdCurso CHAR(36) NOT NULL,
@@ -208,10 +190,6 @@ CREATE TABLE IF NOT EXISTS Gam_HistorialEjerciciosJugador (
     FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
 );
 
--- =======================================================
--- 5. COMPETENCIAS
--- =======================================================
-
 CREATE TABLE IF NOT EXISTS Gam_Competencia (
     Id CHAR(36) NOT NULL PRIMARY KEY,
     Tipo VARCHAR(20), -- ARENA, PRACTICA
@@ -242,11 +220,6 @@ CREATE TABLE IF NOT EXISTS Gam_HistorialCompetenciasJugador (
     FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
 );
 
--- =======================================================
--- SEED DATA
--- =======================================================
-
--- 1. Persona Admin
 INSERT IGNORE INTO Adm_Persona (Id, Nombres, Apellidos, Email, EstudioNivel, ESTADO, FECHA_CREACION) VALUES
 ('P-ADMIN-001', 'Admin', 'User', 'admin@matharena.com', 'Universidad', 1, 1725375954790);
 

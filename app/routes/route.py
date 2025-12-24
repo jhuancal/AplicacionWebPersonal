@@ -37,10 +37,8 @@ def index():
 
 @admin_bp.before_request
 def restrict_access():
-    """Confirms user is logged in before allowing access to any route."""
     allowed_routes = ['admin.login', 'admin.register', 'static']
     if request.endpoint and request.endpoint not in allowed_routes and not session.get('user_data'):
-        # Allow static files even if endpoint name is not exactly 'static' (e.g. blueprints)
         if request.endpoint == 'static' or request.path.startswith('/static'):
              return
         return redirect(url_for('admin.login'))
@@ -58,7 +56,8 @@ def login():
         else:
             return render_template("auth/login.html", error="Invalid Credentials. Access Denied.")
     
-    # GET request
+            return render_template("auth/login.html", error="Invalid Credentials. Access Denied.")
+    
     if session.get('user_data'):
         return redirect(url_for('admin.dashboard'))
     return render_template("auth/login.html")
@@ -90,10 +89,7 @@ def arenas():
     user = session.get('user_data')
     conn = get_db_connection()
     
-    # Get Completed Courses (Progress = 100%)
     prog_repo = AvanceCursoJugadorRepository(conn)
-    # This is inefficient (get_all then filter), but sufficient for now.
-    # Ideally: AvanceRepository.get_completed_by_user(user_id)
     all_progs = prog_repo.get_all()
     user_progs = [p for p in all_progs if p.IdJugador == user.get('Id') and p.PorcentajeAvance == 100.00]
     
@@ -141,11 +137,12 @@ def api_arena_generate():
     if not ops:
         return jsonify({"error": "No generators found for this course"}), 404
         
-    # Pick random operation
+    if not ops:
+        return jsonify({"error": "No generators found for this course"}), 404
+        
     import random
     op = random.choice(ops)
     
-    # Generate Question
     problem = ExerciseGeneratorService.generate(op)
     return jsonify(problem)
 
@@ -193,8 +190,6 @@ def curso_detalle(id):
     
     # 3. Get Exercises for each Theme
     ejercicio_repo = EjercicioRepository(conn)
-    # Convert themes to dicts to attach exercises or strict object usage?
-    # Let's use a list of data structs
     temas_data = []
     for tema in temas:
         exs = ejercicio_repo.get_by_tema(tema.Id)
@@ -207,7 +202,6 @@ def curso_detalle(id):
     examen_repo = ExamenCursoRepository(conn)
     examen = examen_repo.get_by_curso(id)
     
-    # Parse JSON questions if string
     if examen and examen.Preguntas and isinstance(examen.Preguntas, str):
         try:
             examen.Preguntas = json.loads(examen.Preguntas)
@@ -222,19 +216,14 @@ def curso_detalle(id):
                            temas_data=temas_data, 
                            examen=examen)
 
-# ==========================================
-# DASHBOARD APIs
-# ==========================================
-
 @admin_bp.route("/api/user/hud", methods=['GET'])
 @login_required
 def api_user_hud():
     user = session.get('user_data')
-    # Mocking Points/Rank for now or fetching from DB
     return jsonify({
         "username": user.get('Username', 'Player'),
-        "rank": "GOLD III", # Todo: fetch real rank
-        "points": 1250,      # Todo: fetch real points
+        "rank": "GOLD III", 
+        "points": 1250,      
         "profile_pic": "/static/img/default_avatar.png"
     })
 
@@ -245,19 +234,14 @@ def api_dashboard_stats():
     user_id = user.get('Id')
     conn = get_db_connection()
     
-    # 1. Get Rank
     rank_repo = RangoJugadorTemporadaRepository(conn)
-    # Assuming get_all returns list, we filter (ideal would be get_by_user)
-    # For now, simplistic approach:
     ranks = rank_repo.get_all() 
     my_rank = next((r for r in ranks if r.IdJugador == user_id), None)
     
-    # 2. Get XP
     exp_repo = ExperienciaJugadorRepository(conn)
     exps = exp_repo.get_all()
     my_exp = next((e for e in exps if e.IdJugador == user_id), None)
     
-    # 3. Get Streak
     streak_repo = RachaJugadorRepository(conn)
     streaks = streak_repo.get_all()
     my_streak = next((s for s in streaks if s.IdJugador == user_id), None)
@@ -384,21 +368,13 @@ def api_insert(entity_name):
         conn.close()
         return jsonify({"error": "Entity not found"}), 404
     
-    # Add System Fields
-    data['Id'] = str(uuid.uuid4())
-    data['ESTADO'] = 1
-    data['DISPONIBILIDAD'] = 1
-    data['FECHA_CREACION'] = int(time.time() * 1000)
-    data['FECHA_MODIFICACION'] = int(time.time() * 1000)
     data['USER_CREACION'] = session.get('user_data', {}).get('Username', 'SYS')
     data['USER_MODIFICACION'] = session.get('user_data', {}).get('Username', 'SYS')
     
-    # Handle File Upload
     if request.files:
         file = request.files.get('Imagen')
         if file and file.filename != '':
             filename = secure_filename(f"{data['Id']}_{file.filename}")
-            # Use current_app.config
             file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
             data['UrlImagen'] = f"/static/uploads/{filename}"
     
