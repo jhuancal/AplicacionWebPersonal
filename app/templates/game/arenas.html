@@ -10,22 +10,29 @@
     <!-- PRACTICE MODE -->
     <div class="game-card" style="border-color: var(--term-blue); box-shadow: 0 0 15px rgba(0, 191, 255, 0.1);">
         <div style="text-align: center; margin-bottom: 2rem;">
-            <i class="fa-solid fa-graduation-cap" style="font-size: 4rem; color: var(--term-blue);"></i>
+            <i class="fa-solid fa-graduation-cap"
+                style="font-size: 4rem; color: var(--term-blue); text-shadow: 0 0 10px var(--term-blue);"></i>
             <h2 style="color: var(--term-blue); margin-top: 1rem;">TRAINING_V1</h2>
-            <p style="color: #888;">Infinite exercises. No pressure. Hone your skills.</p>
+            <p style="color: #888;">Infinite exercises. No pressure. Select a completed course.</p>
         </div>
 
-        <form>
+        <form action="{{ url_for('admin.arena_play') }}" method="GET">
+            <input type="hidden" name="mode" value="TRAINING">
             <label style="display: block; margin-bottom: 0.5rem; color: var(--term-blue);">SELECT_MODULE:</label>
-            <select
+            <select name="courseId" required
                 style="width: 100%; padding: 10px; background: #000; color: #fff; border: 1px solid var(--term-blue); margin-bottom: 2rem; font-family: inherit;">
-                <option>ALL_AVAILABLE</option>
-                <option>Algebra I</option>
-                <option>Geometry</option>
-                <option>Calculus I</option>
+                {% if courses %}
+                {% for c in courses %}
+                <option value="{{ c.Id }}">{{ c.Nombre }}</option>
+                {% endfor %}
+                {% else %}
+                <option disabled selected>NO COMPLETED COURSES</option>
+                {% endif %}
             </select>
 
-            <button class="btn-game" style="width: 100%; border-color: var(--term-blue); color: var(--term-blue);">
+            <button type="submit" class="btn-game"
+                style="width: 100%; border-color: var(--term-blue); color: var(--term-blue);" {% if not courses
+                %}disabled style="opacity:0.5; cursor:not-allowed;" {% endif %}>
                 [ START_TRAINING ]
             </button>
         </form>
@@ -34,23 +41,30 @@
     <!-- COMPETITIVE MODE -->
     <div class="game-card" style="border-color: #ff3333; box-shadow: 0 0 15px rgba(255, 51, 51, 0.1);">
         <div style="text-align: center; margin-bottom: 2rem;">
-            <i class="fa-solid fa-trophy" style="font-size: 4rem; color: #ff3333;"></i>
+            <i class="fa-solid fa-trophy" style="font-size: 4rem; color: #ff3333; text-shadow: 0 0 10px #ff3333;"></i>
             <h2 style="color: #ff3333; margin-top: 1rem;">RANKED_MATCH</h2>
             <p style="color: #888;">Compete against others. Gain LP. Rise in Rank.</p>
         </div>
 
-        <form>
-            <label style="display: block; margin-bottom: 0.5rem; color: #ff3333;">INCLUDE_IN_POOL:</label>
+        <form action="{{ url_for('admin.arena_play') }}" method="GET">
+            <input type="hidden" name="mode" value="RANKED">
+            <!-- For ranked, maybe we autopick or just pass dummy course for now since we haven't built pool logic -->
+            <label style="display: block; margin-bottom: 0.5rem; color: #ff3333;">MATCHMAKING POOL:</label>
             <div
                 style="background: #000; border: 1px solid #ff3333; padding: 10px; height: 80px; overflow-y: scroll; margin-bottom: 2rem;">
-                <!-- Mock Multiselect -->
-                <div style="margin-bottom: 5px;"><input type="checkbox" checked> Algebra I</div>
-                <div style="margin-bottom: 5px;"><input type="checkbox" checked> Geometry</div>
-                <div style="margin-bottom: 5px;"><input type="checkbox"> Calculus I</div>
-                <div style="margin-bottom: 5px;"><input type="checkbox"> Statistics</div>
+                {% if courses %}
+                {% for c in courses %}
+                <div style="margin-bottom: 5px; color: #aaa;">
+                    <input type="checkbox" checked disabled> {{ c.Nombre }}
+                </div>
+                {% endfor %}
+                {% else %}
+                <div style="color: #555;">No eligible courses unlocked.</div>
+                {% endif %}
             </div>
 
-            <button class="btn-game" style="width: 100%; border-color: #ff3333; color: #ff3333;">
+            <button type="submit" class="btn-game" style="width: 100%; border-color: #ff3333; color: #ff3333;" {% if not
+                courses %}disabled style="opacity:0.5; cursor:not-allowed;" {% endif %}>
                 [ FIND_MATCH ]
             </button>
         </form>

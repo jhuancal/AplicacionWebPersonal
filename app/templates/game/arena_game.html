@@ -1,0 +1,125 @@
+{% extends "layouts/game_base.html" %}
+
+{% block title %}Arena | Math Arena{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <!-- Game Container -->
+    <div class="col-md-8">
+        <div class="game-card text-center"
+            style="min-height: 500px; display: flex; flex-direction: column; justify-content: center;">
+
+            <!-- Header -->
+            <div class="mb-4">
+                <span class="badge" style="background: var(--term-blue); color: #000; font-size: 1rem;">{{ mode }}
+                    MODE</span>
+                {% if course %}
+                <h2 class="mt-2 text-neon-blue">{{ course.Nombre }}</h2>
+                {% else %}
+                <h2 class="mt-2 text-neon-red">RANKED MATCH</h2>
+                {% endif %}
+            </div>
+
+            <!-- Pre-Game / Loading -->
+            <div id="game-loading">
+                <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 3rem; color: #555;"></i>
+                <p class="mt-3">INITIALIZING_SYSTEM...</p>
+            </div>
+
+            <!-- Question Area -->
+            <div id="game-area" style="display: none;">
+                <div class="score-board mb-4 d-flex justify-content-between px-5">
+                    <div>SCORE: <span id="score-val" class="text-neon-gold">0</span></div>
+                    <div>TIME: <span id="time-val">--</span></div>
+                </div>
+
+                <h1 id="question-text" style="font-size: 2.5rem; margin: 2rem 0;">...</h1>
+
+                <div class="options-grid"
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 2rem;">
+                    <button class="btn-game option-btn" onclick="checkAnswer(this)"></button>
+                    <button class="btn-game option-btn" onclick="checkAnswer(this)"></button>
+                    <button class="btn-game option-btn" onclick="checkAnswer(this)"></button>
+                    <button class="btn-game option-btn" onclick="checkAnswer(this)"></button>
+                </div>
+
+                <div id="result-overlay" style="margin-top: 2rem; display: none;">
+                    <h3 id="result-msg">CORRECT!</h3>
+                    <button class="btn-game" onclick="nextQuestion()">[ NEXT_PROBLEM ]</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentAnswer = "";
+    let score = 0;
+    const courseId = "{{ course.Id if course else '' }}";
+
+    document.addEventListener('DOMContentLoaded', function () {
+        nextQuestion();
+    });
+
+    function nextQuestion() {
+        document.getElementById('game-loading').style.display = 'block';
+        document.getElementById('game-area').style.display = 'none';
+        document.getElementById('result-overlay').style.display = 'none';
+
+        fetch('/api/arena/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ courseId: courseId })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                displayQuestion(data);
+            })
+            .catch(err => console.error(err));
+    }
+
+    function displayQuestion(data) {
+        document.getElementById('game-loading').style.display = 'none';
+        document.getElementById('game-area').style.display = 'block';
+
+        document.getElementById('question-text').textContent = data.question;
+        currentAnswer = data.answer;
+
+        const buttons = document.querySelectorAll('.option-btn');
+        // Shuffle options? Implementation details. options is list.
+        const options = data.options.sort(() => Math.random() - 0.5);
+
+        buttons.forEach((btn, index) => {
+            btn.textContent = options[index];
+            btn.style.borderColor = 'var(--term-green)';
+            btn.style.color = 'var(--term-green)';
+            btn.disabled = false;
+        });
+    }
+
+    function checkAnswer(btn) {
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach(b => b.disabled = true);
+
+        if (btn.textContent === currentAnswer) {
+            btn.style.backgroundColor = 'var(--term-green)';
+            btn.style.color = '#000';
+            score += 10;
+            document.getElementById('score-val').textContent = score;
+            document.getElementById('result-msg').textContent = "CORRECT!";
+            document.getElementById('result-msg').style.color = "var(--term-green)";
+        } else {
+            btn.style.backgroundColor = '#ff3333';
+            btn.style.color = '#fff';
+            document.getElementById('result-msg').textContent = "INCORRECT. Answer: " + currentAnswer;
+            document.getElementById('result-msg').style.color = "#ff3333";
+        }
+        document.getElementById('result-overlay').style.display = 'block';
+    }
+</script>
+{% endblock %}

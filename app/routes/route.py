@@ -25,6 +25,8 @@ from repositories.tema_curso import TemaCursoRepository
 from repositories.ejercicio import EjercicioRepository
 from repositories.examen_curso import ExamenCursoRepository
 
+from repositories.operacion_matematica import OperacionMatematicaRepository
+from services.exercise_generator import ExerciseGeneratorService
 from auth.auth_service import AuthService
 
 admin_bp = Blueprint('admin', __name__)
@@ -86,7 +88,66 @@ def cursos():
 @login_required 
 def arenas():
     user = session.get('user_data')
-    return render_template("game/arenas.html", user=user)
+    conn = get_db_connection()
+    
+    # Get Completed Courses (Progress = 100%)
+    prog_repo = AvanceCursoJugadorRepository(conn)
+    # This is inefficient (get_all then filter), but sufficient for now.
+    # Ideally: AvanceRepository.get_completed_by_user(user_id)
+    all_progs = prog_repo.get_all()
+    user_progs = [p for p in all_progs if p.IdJugador == user.get('Id') and p.PorcentajeAvance == 100.00]
+    
+    curso_repo = CursoRepository(conn)
+    completed_courses = []
+    for p in user_progs:
+        c = curso_repo.get_by_id(p.IdCurso)
+        if c:
+            completed_courses.append(c)
+            
+    conn.close()
+    return render_template("game/arenas.html", user=user, courses=completed_courses)
+
+@admin_bp.route("/admin/arena/play")
+@login_required
+def arena_play():
+    user = session.get('user_data')
+    mode = request.args.get('mode', 'TRAINING')
+    course_id = request.args.get('courseId')
+    
+    conn = get_db_connection()
+    curso_repo = CursoRepository(conn)
+    course = curso_repo.get_by_id(course_id) if course_id else None
+    conn.close()
+    
+    if not course and mode == 'TRAINING':
+        return redirect(url_for('admin.arenas'))
+        
+    return render_template("game/arena_game.html", user=user, mode=mode, course=course)
+
+@admin_bp.route("/api/arena/generate", methods=['POST'])
+@login_required
+def api_arena_generate():
+    data = request.get_json()
+    course_id = data.get('courseId')
+    
+    if not course_id:
+        return jsonify({"error": "Course ID required"}), 400
+        
+    conn = get_db_connection()
+    op_repo = OperacionMatematicaRepository(conn)
+    ops = op_repo.get_by_curso(course_id)
+    conn.close()
+    
+    if not ops:
+        return jsonify({"error": "No generators found for this course"}), 404
+        
+    # Pick random operation
+    import random
+    op = random.choice(ops)
+    
+    # Generate Question
+    problem = ExerciseGeneratorService.generate(op)
+    return jsonify(problem)
 
 @admin_bp.route("/admin/ranking")
 @login_required 

@@ -265,13 +265,18 @@ INSERT IGNORE INTO Gam_RachaJugador (Id, IdJugador, RachaActual, RachaMaxima, Ul
 INSERT IGNORE INTO Gam_DesafioJugador (Id, IdJugador, FocoPrincipal, Contenido, Estado, FechaAsignacion) VALUES
 ('CH-ADMIN-001', 'J-ADMIN-001', 'INTEGRAL MASTER', '{"description": "Solve 5 definite integrals perfectly.", "target": 5, "current": 0}', 'PENDIENTE', CURDATE());
 
--- 9. Avance Curso
+-- 9. Avance Curso (Set to 100% for Admin to unlock Arenas)
 INSERT IGNORE INTO Edu_AvanceCursoJugador (Id, IdJugador, IdCurso, NivelActual, PorcentajeAvance) VALUES
-('PROG-ADMIN-001', 'J-ADMIN-001', 'C-ALG-001', 5, 75.00);
+('PROG-ADMIN-001', 'J-ADMIN-001', 'C-ALG-001', 10, 100.00);
 
 -- 10. Contenido Curso (Algebra I)
 INSERT IGNORE INTO Edu_TemaCurso (Id, IdCurso, Nombre, Descripcion) VALUES
 ('T-ALG-001', 'C-ALG-001', 'Ecuaciones Lineales', 'Resolucion de ecuaciones de primer grado.');
+
+-- 11. Operaciones Matematicas (Generators)
+INSERT IGNORE INTO Edu_OperacionMatematica (Id, IdCurso, Nombre, FuncionSistema, Formula, Atributos) VALUES
+('OP-ALG-001', 'C-ALG-001', 'Suma Polinomios', 'gen_poly_sum', '(ax + b) + (cx + d)', '{"vars": ["x"], "degree": 1}'),
+('OP-ALG-002', 'C-ALG-001', 'Ecuacion Primer Grado', 'gen_linear_eq', 'ax + b = c', '{"vars": ["x"]}');
 
 INSERT IGNORE INTO Edu_Ejercicio (Id, IdCurso, IdTema, Enunciado, NivelDificultad, RespuestaCorrecta) VALUES
 ('E-ALG-001', 'C-ALG-001', 'T-ALG-001', 'Solve for x: 2x + 4 = 10', 1, '3'),
