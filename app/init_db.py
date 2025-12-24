@@ -57,7 +57,7 @@ def init_db():
         except FileNotFoundError:
             print(f"File {filename} not found.")
     try:
-        cursor.execute("SHOW TABLES LIKE 'Seg_Usuario'")
+        cursor.execute("SHOW TABLES LIKE 'Seg_Jugador'")
         result = cursor.fetchone()
         if not result:
             print("Entities not found in database. initializing tables...")

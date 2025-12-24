@@ -1,5 +1,4 @@
-CREATE DATABASE IF NOT EXISTS mates;
-USE mates;
+-- Database selection is handled by the connection string
 
 -- =======================================================
 -- 1. AUTENTICACION Y PERSONAS
