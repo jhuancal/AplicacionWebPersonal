@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS Gam_RangoJugadorTemporada (
     IdTemporada CHAR(36) NOT NULL,
     Rango VARCHAR(20), -- BRONCE, PLATA, ORO
     PuntosTemporada INT DEFAULT 0,
+    ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id),
     FOREIGN KEY (IdTemporada) REFERENCES Gam_Temporada(Id)
 );
@@ -64,6 +65,7 @@ CREATE TABLE IF NOT EXISTS Gam_ExperienciaJugador (
     IdJugador CHAR(36) NOT NULL,
     TotalExp INT DEFAULT 0,
     ExpPorCurso JSON, -- Flexible storage
+    ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
 );
 
@@ -71,6 +73,7 @@ CREATE TABLE IF NOT EXISTS Gam_PuntajeJugador (
     Id CHAR(36) NOT NULL PRIMARY KEY,
     IdJugador CHAR(36) NOT NULL,
     PuntajeTotal INT DEFAULT 0,
+    ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
 );
 
@@ -80,6 +83,7 @@ CREATE TABLE IF NOT EXISTS Gam_RachaJugador (
     RachaActual INT DEFAULT 0,
     RachaMaxima INT DEFAULT 0,
     UltimoIngreso DATE,
+    ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
 );
 
@@ -90,6 +94,7 @@ CREATE TABLE IF NOT EXISTS Gam_DesafioJugador (
     Contenido JSON,
     Estado VARCHAR(20), -- PENDIENTE, COMPLETADO
     FechaAsignacion DATE,
+    ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
 );
 
@@ -112,6 +117,7 @@ CREATE TABLE IF NOT EXISTS Edu_TemaCurso (
     IdCurso CHAR(36) NOT NULL,
     Nombre VARCHAR(100),
     Descripcion TEXT,
+    ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdCurso) REFERENCES Edu_Curso(Id)
 );
 
@@ -120,6 +126,7 @@ CREATE TABLE IF NOT EXISTS Edu_ExamenCurso (
     IdCurso CHAR(36) NOT NULL,
     Preguntas JSON,
     NotaMinima INT DEFAULT 70,
+    ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdCurso) REFERENCES Edu_Curso(Id)
 );
 
@@ -128,6 +135,7 @@ CREATE TABLE IF NOT EXISTS Edu_RecursoCurso (
     IdCurso CHAR(36) NOT NULL,
     Tipo VARCHAR(20), -- FORMULA, PISTA
     Contenido TEXT,
+    ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdCurso) REFERENCES Edu_Curso(Id)
 );
 
@@ -137,7 +145,8 @@ CREATE TABLE IF NOT EXISTS Edu_OperacionMatematica (
     Nombre VARCHAR(50), -- +, -, Integral
     FuncionSistema VARCHAR(100),
     Formula TEXT,
-    Atributos JSON
+    Atributos JSON,
+    ESTADO BIT DEFAULT 1
 );
 
 CREATE TABLE IF NOT EXISTS Edu_MetodoResolucion (
@@ -145,6 +154,7 @@ CREATE TABLE IF NOT EXISTS Edu_MetodoResolucion (
     IdOperacion CHAR(36) NOT NULL,
     Nombre VARCHAR(100),
     Pasos JSON,
+    ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdOperacion) REFERENCES Edu_OperacionMatematica(Id)
 );
 
@@ -154,6 +164,7 @@ CREATE TABLE IF NOT EXISTS Edu_AvanceCursoJugador (
     IdCurso CHAR(36) NOT NULL,
     NivelActual INT DEFAULT 1,
     PorcentajeAvance DECIMAL(5,2) DEFAULT 0.0,
+    ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id),
     FOREIGN KEY (IdCurso) REFERENCES Edu_Curso(Id)
 );
@@ -170,6 +181,7 @@ CREATE TABLE IF NOT EXISTS Edu_Ejercicio (
     Enunciado TEXT,
     NivelDificultad INT,
     RespuestaCorrecta TEXT,
+    ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdCurso) REFERENCES Edu_Curso(Id),
     FOREIGN KEY (IdTema) REFERENCES Edu_TemaCurso(Id),
     FOREIGN KEY (IdOperacion) REFERENCES Edu_OperacionMatematica(Id)
@@ -192,6 +204,7 @@ CREATE TABLE IF NOT EXISTS Gam_HistorialEjerciciosJugador (
     IdJugador CHAR(36) NOT NULL,
     TotalEjerciciosResueltos INT DEFAULT 0,
     PorcentajeExito DECIMAL(5,2) DEFAULT 0.0,
+    ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
 );
 
@@ -214,6 +227,7 @@ CREATE TABLE IF NOT EXISTS Gam_ParticipanteCompetencia (
     IdJugador CHAR(36) NOT NULL,
     PuntosObtenidos INT DEFAULT 0,
     PosicionFinal INT,
+    ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdCompetencia) REFERENCES Gam_Competencia(Id),
     FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
 );
@@ -224,6 +238,7 @@ CREATE TABLE IF NOT EXISTS Gam_HistorialCompetenciasJugador (
     TotalCompetencias INT DEFAULT 0,
     Victorias INT DEFAULT 0,
     MejorPosicion INT,
+    ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
 );
 
