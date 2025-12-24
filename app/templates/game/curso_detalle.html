@@ -1,0 +1,91 @@
+{% extends "layouts/game_base.html" %}
+
+{% block title %}{{ curso.Nombre }} | Math Arena{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <a href="{{ url_for('admin.cursos') }}" class="btn-game" style="font-size: 0.8rem;">
+            << BACK TO COURSES
+        </a>
+    </div>
+
+    <!-- COURSE HEADER -->
+    <div class="col-12 mb-4 text-center">
+        <h1 class="text-neon-blue" style="font-size: 3rem; text-shadow: 0 0 10px var(--term-blue);">{{ curso.Nombre }}</h1>
+        <p class="text-muted">{{ curso.Descripcion }}</p>
+        <span class="badge" style="background: #333; color: #fff; padding: 5px 10px;">{{ curso.Nivel }}</span>
+        <span class="badge" style="background: #333; color: #fff; padding: 5px 10px;">{{ curso.Rama }}</span>
+    </div>
+
+    <!-- THEMES & EXERCISES -->
+    <div class="col-12">
+        {% for item in temas_data %}
+        <div class="game-card mb-4" style="border-left: 5px solid var(--term-green);">
+            <h2 class="card-title text-neon-green" style="border-bottom: 1px solid #333; padding-bottom: 10px;">
+                MODULE: {{ item.tema.Nombre }}
+            </h2>
+            <p>{{ item.tema.Descripcion }}</p>
+
+            <h4 class="mt-4 mb-3" style="color: #aaa;">>> EXERCISES</h4>
+            <div class="row">
+                {% for log in item.ejercicios %}
+                <div class="col-md-4 mb-3">
+                    <div style="background: #1a1a1a; padding: 15px; border-radius: 5px; border: 1px solid #333;">
+                        <h5 style="color: #fff; margin-bottom: 5px;">Exercise #{{ loop.index }}</h5>
+                        <p style="font-size: 0.9rem; color: #888; margin-bottom: 10px; font-style: italic;">
+                            {{ log.Enunciado }}
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span style="font-size: 0.8rem; color: var(--term-gold);">LVL {{ log.NivelDificultad }}</span>
+                            <button class="btn-game-sm" style="font-size: 0.8rem;">START</button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- EXAM SECTION -->
+    {% if examen %}
+    <div class="col-12 mt-4">
+        <div class="game-card" style="border: 2px solid var(--term-gold); background: rgba(255, 215, 0, 0.05);">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="card-title text-neon-gold" style="margin: 0;">FINAL EXAM</h2>
+                <span style="background: var(--term-gold); color: #000; padding: 2px 8px; font-weight: bold;">PASS MARK: {{ examen.NotaMinima }}%</span>
+            </div>
+            
+            <p class="text-center mb-4">Prove your mastery of {{ curso.Nombre }}. Solve all 5 questions to pass.</p>
+
+            <!-- Questions Preview (Or Actual Exam Form if we were implementing logic) -->
+            <div class="exam-preview">
+                {% if examen.Preguntas is iterable and examen.Preguntas is not string %}
+                    {% for q in examen.Preguntas %}
+                    <div class="mb-3" style="background: #000; padding: 15px; border-radius: 5px;">
+                        <p style="color: #fff; margin-bottom: 10px;"><strong>Q{{ loop.index }}:</strong> {{ q.question }}</p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            {% for opt in q.options %}
+                            <div style="background: #222; padding: 8px; border: 1px solid #444; color: #aaa; text-align: center; cursor: pointer;">
+                                {{ opt }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No questions content available.</p>
+                {% endif %}
+            </div>
+
+            <div class="text-center mt-4">
+                <button class="btn-game" style="width: 200px; border-color: var(--term-gold); color: var(--term-gold);">
+                    START EXAM
+                </button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

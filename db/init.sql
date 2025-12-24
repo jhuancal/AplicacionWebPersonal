@@ -268,3 +268,21 @@ INSERT IGNORE INTO Gam_DesafioJugador (Id, IdJugador, FocoPrincipal, Contenido, 
 -- 9. Avance Curso
 INSERT IGNORE INTO Edu_AvanceCursoJugador (Id, IdJugador, IdCurso, NivelActual, PorcentajeAvance) VALUES
 ('PROG-ADMIN-001', 'J-ADMIN-001', 'C-ALG-001', 5, 75.00);
+
+-- 10. Contenido Curso (Algebra I)
+INSERT IGNORE INTO Edu_TemaCurso (Id, IdCurso, Nombre, Descripcion) VALUES
+('T-ALG-001', 'C-ALG-001', 'Ecuaciones Lineales', 'Resolucion de ecuaciones de primer grado.');
+
+INSERT IGNORE INTO Edu_Ejercicio (Id, IdCurso, IdTema, Enunciado, NivelDificultad, RespuestaCorrecta) VALUES
+('E-ALG-001', 'C-ALG-001', 'T-ALG-001', 'Solve for x: 2x + 4 = 10', 1, '3'),
+('E-ALG-002', 'C-ALG-001', 'T-ALG-001', 'Solve for x: 5x - 3 = 12', 1, '3'),
+('E-ALG-003', 'C-ALG-001', 'T-ALG-001', 'Solve for x: 3(x - 2) = 9', 2, '5');
+
+INSERT IGNORE INTO Edu_ExamenCurso (Id, IdCurso, NotaMinima, Preguntas) VALUES
+('EX-ALG-001', 'C-ALG-001', 70, '[
+    {"id": 1, "question": "What is the slope of y = 2x + 5?", "options": ["2", "5", "x", "0"], "answer": "2"},
+    {"id": 2, "question": "Solve: x + 5 = 10", "options": ["5", "10", "15", "0"], "answer": "5"},
+    {"id": 3, "question": "Is x^2 linear?", "options": ["Yes", "No"], "answer": "No"},
+    {"id": 4, "question": "Simplify: 2x + 3x", "options": ["5x", "6x", "5x^2", "x"], "answer": "5x"},
+    {"id": 5, "question": "Value of x if x/2 = 4", "options": ["2", "4", "8", "16"], "answer": "8"}
+]');

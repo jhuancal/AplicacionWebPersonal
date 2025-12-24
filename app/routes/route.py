@@ -1,6 +1,7 @@
 import os
 import time
 import uuid
+import json
 from functools import wraps
 from flask import Blueprint, render_template, request, jsonify, session, redirect, url_for, current_app
 from werkzeug.utils import secure_filename
@@ -20,6 +21,9 @@ from repositories.desafio_jugador import DesafioJugadorRepository
 from repositories.rango_jugador_temporada import RangoJugadorTemporadaRepository
 from repositories.avance_curso_jugador import AvanceCursoJugadorRepository
 from repositories.curso import CursoRepository
+from repositories.tema_curso import TemaCursoRepository
+from repositories.ejercicio import EjercicioRepository
+from repositories.examen_curso import ExamenCursoRepository
 
 from auth.auth_service import AuthService
 
@@ -107,6 +111,55 @@ def admin_usuario():
 def admin_persona():
     user = session.get('user_data')
     return render_template("admin/Administracion/persona.html", user=user)
+
+@admin_bp.route("/admin/curso/<id>")
+@login_required
+def curso_detalle(id):
+    user = session.get('user_data')
+    conn = get_db_connection()
+    
+    # 1. Get Course Info
+    curso_repo = CursoRepository(conn)
+    curso = curso_repo.get_by_id(id)
+    
+    if not curso:
+        conn.close()
+        return "Course not found", 404
+        
+    # 2. Get Themes
+    tema_repo = TemaCursoRepository(conn)
+    temas = tema_repo.get_by_curso(id)
+    
+    # 3. Get Exercises for each Theme
+    ejercicio_repo = EjercicioRepository(conn)
+    # Convert themes to dicts to attach exercises or strict object usage?
+    # Let's use a list of data structs
+    temas_data = []
+    for tema in temas:
+        exs = ejercicio_repo.get_by_tema(tema.Id)
+        temas_data.append({
+            'tema': tema,
+            'ejercicios': exs
+        })
+        
+    # 4. Get Exam
+    examen_repo = ExamenCursoRepository(conn)
+    examen = examen_repo.get_by_curso(id)
+    
+    # Parse JSON questions if string
+    if examen and examen.Preguntas and isinstance(examen.Preguntas, str):
+        try:
+            examen.Preguntas = json.loads(examen.Preguntas)
+        except:
+            examen.Preguntas = []
+
+    conn.close()
+    
+    return render_template("game/curso_detalle.html", 
+                           user=user, 
+                           curso=curso, 
+                           temas_data=temas_data, 
+                           examen=examen)
 
 # ==========================================
 # DASHBOARD APIs
