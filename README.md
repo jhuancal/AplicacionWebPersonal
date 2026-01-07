@@ -1,6 +1,6 @@
 # Math Arena - Gamified Educational Platform
 
-**URL del Proyecto:** [URL_DEL_PROYECTO_EN_RAILWAY]
+**URL del Proyecto:** [[URL_DEL_PROYECTO_EN_RAILWAY]](https://aplicacionwebpersonal-production.up.railway.app/login)
 
 ## Descripción
 Math Arena es una plataforma web educativa gamificada diseñada para hacer del aprendizaje de las matemáticas una experiencia competitiva y atractiva. A través de un sistema de progresión basado en rangos, experiencia (XP) y rachas diarias, los usuarios pueden completar cursos, resolver desafíos y competir en "Arenas" de entrenamiento contra ejercicios generados proceduralmente. El objetivo es motivar a los estudiantes mediante mecánicas de juego aplicadas al estudio, fomentando la práctica constante y el dominio de temas como Álgebra, Geometría y Cálculo.
