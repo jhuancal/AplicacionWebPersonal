@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Docker
+.docker/

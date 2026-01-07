@@ -57,13 +57,12 @@ def init_db():
         except FileNotFoundError:
             print(f"File {filename} not found.")
     try:
-        cursor.execute("SHOW TABLES LIKE 'Seg_Jugador'")
-        result = cursor.fetchone()
-        if not result:
-            print("Entities not found in database. initializing tables...")
-            run_script('/app/db/init.sql')
-        else:
-            print("Entities already exist in database. Verifying integrity... OK.")
+        # Always run the script to ensure new tables are created
+        # The script uses IF NOT EXISTS and INSERT IGNORE so it is safe
+        print("Ensuring database schema is up to date...")
+        run_script('/app/db/init.sql')
+            
+    except Exception as e:
             
     except Exception as e:
         print(f"Error checking schema: {e}")

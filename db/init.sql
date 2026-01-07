@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS Gam_DesafioJugador (
     IdJugador CHAR(36) NOT NULL,
     FocoPrincipal VARCHAR(100),
     Contenido JSON,
-    Estado VARCHAR(20), -- PENDIENTE, COMPLETADO
+    EstadoDesafio VARCHAR(20), -- PENDIENTE, COMPLETADO
     FechaAsignacion DATE,
     ESTADO BIT DEFAULT 1,
     FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
@@ -220,6 +220,23 @@ CREATE TABLE IF NOT EXISTS Gam_HistorialCompetenciasJugador (
     FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
 );
 
+    FOREIGN KEY (IdJugador) REFERENCES Seg_Jugador(Id)
+);
+
+CREATE TABLE IF NOT EXISTS Gam_MatchPvP (
+    Id CHAR(36) NOT NULL PRIMARY KEY,
+    IdJugador1 CHAR(36) NOT NULL,
+    IdJugador2 CHAR(36), -- Null initially
+    Estado VARCHAR(20), -- ESPERANDO, EN_CURSO, FINALIZADO
+    PuntuacionJ1 INT DEFAULT 0,
+    PuntuacionJ2 INT DEFAULT 0,
+    TurnoActual INT DEFAULT 1,
+    DatosPartida JSON, -- Stores questions generated for the match
+    Ganador CHAR(36),
+    FECHA_CREACION BIGINT,
+    ESTADO BIT DEFAULT 1
+);
+
 INSERT IGNORE INTO Adm_Persona (Id, Nombres, Apellidos, Email, EstudioNivel, ESTADO, FECHA_CREACION) VALUES
 ('P-ADMIN-001', 'Admin', 'User', 'admin@matharena.com', 'Universidad', 1, 1725375954790);
 
@@ -250,7 +267,7 @@ INSERT IGNORE INTO Gam_RachaJugador (Id, IdJugador, RachaActual, RachaMaxima, Ul
 ('STR-ADMIN-001', 'J-ADMIN-001', 5, 12, CURDATE());
 
 -- 8. Desafio Diario
-INSERT IGNORE INTO Gam_DesafioJugador (Id, IdJugador, FocoPrincipal, Contenido, Estado, FechaAsignacion) VALUES
+INSERT IGNORE INTO Gam_DesafioJugador (Id, IdJugador, FocoPrincipal, Contenido, EstadoDesafio, FechaAsignacion) VALUES
 ('CH-ADMIN-001', 'J-ADMIN-001', 'INTEGRAL MASTER', '{"description": "Solve 5 definite integrals perfectly.", "target": 5, "current": 0}', 'PENDIENTE', CURDATE());
 
 -- 9. Avance Curso (Set to 100% for Admin to unlock Arenas)

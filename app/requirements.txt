@@ -2,3 +2,5 @@ flask
 mysql-connector-python
 
 Flask-Mail
+flask-socketio
+eventlet

@@ -18,12 +18,14 @@
             <div class="login-subtitle">>> Initialize New Protocol</div>
         </div>
 
+        {% if error %}
         <div class="error-message"
-            style="display: block; border-color: var(--term-blue); color: var(--term-blue); background: rgba(0, 191, 255, 0.1);">
-            [INFO]: Registration module is currently in simulation mode.
+            style="display: block; border-color: #ff3333; color: #ff3333; background: rgba(255, 51, 51, 0.1);">
+            [ERROR]: {{ error }}
         </div>
+        {% endif %}
 
-        <form action="#" method="POST">
+        <form action="{{ url_for('auth.register') }}" method="POST">
             <div class="form-group">
                 <label class="input-label" for="username">New.Identity</label>
                 <input type="text" id="username" name="username" class="input-field" placeholder="username" required
@@ -40,14 +42,13 @@
                 <input type="password" id="password" name="password" class="input-field" placeholder="****" required>
             </div>
 
-            <button type="button" class="submit-btn"
-                onclick="alert('Registration Simulation Complete. Please Login.'); window.location.href='{{ url_for('admin.login') }}'">
+            <button type="submit" class="submit-btn">
                 [ INITIALIZE_USER ]
             </button>
         </form>
 
         <div class="links">
-            <a href="{{ url_for('admin.login') }}">[ << RETURN_TO_LOGIN ]</a>
+            <a href="{{ url_for('auth.login') }}">[ << RETURN_TO_LOGIN ]</a>
         </div>
     </div>
 </body>

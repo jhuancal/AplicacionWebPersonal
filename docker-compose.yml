@@ -13,7 +13,16 @@ services:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   app:
-    build: ./app
+    build: .
+    environment:
+      MYSQLHOST: db
+      MYSQLUSER: jhoans
+      MYSQLPASSWORD: jhoansPass
+      MYSQLDATABASE: mates
+      MYSQLPORT: 3306
+    volumes:
+      - ./app:/app
+      - ./db:/app/db
     ports:
       - "5000:5000"
     depends_on:

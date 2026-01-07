@@ -18,6 +18,10 @@
                 {% else %}
                 <h2 class="mt-2 text-neon-red">RANKED MATCH</h2>
                 {% endif %}
+                <!-- Exit Button -->
+                <a href="{{ url_for('admin.arenas') }}" class="btn-game"
+                    style="position: absolute; top: 20px; right: 20px; font-size: 0.8rem; padding: 5px 10px; border-color: #555; color: #aaa;">[
+                    EXIT_SIMULATION ]</a>
             </div>
 
             <!-- Pre-Game / Loading -->
@@ -97,6 +101,7 @@
         buttons.forEach((btn, index) => {
             btn.textContent = options[index];
             btn.style.borderColor = 'var(--term-green)';
+            btn.style.backgroundColor = 'transparent'; // Reset Grid
             btn.style.color = 'var(--term-green)';
             btn.disabled = false;
         });
@@ -111,8 +116,15 @@
             btn.style.color = '#000';
             score += 10;
             document.getElementById('score-val').textContent = score;
-            document.getElementById('result-msg').textContent = "CORRECT!";
+            document.getElementById('result-msg').textContent = "CORRECT! +10XP";
             document.getElementById('result-msg').style.color = "var(--term-green)";
+
+            // Save XP
+            fetch('/api/arena/xp', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount: 10 })
+            }).catch(console.error);
         } else {
             btn.style.backgroundColor = '#ff3333';
             btn.style.color = '#fff';

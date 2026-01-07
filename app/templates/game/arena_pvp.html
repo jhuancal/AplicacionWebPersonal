@@ -1,0 +1,172 @@
+{% extends "layouts/game_base.html" %}
+
+{% block title %}PvP Arena | Math Arena{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Header -->
+    <div class="col-12 text-center mb-4">
+        <h1 class="text-neon-gold" style="text-shadow: 0 0 10px var(--term-gold);">PvP ARENA (1v1)</h1>
+        <p class="text-muted">Real-Time Battle Gradient. First to fail loses connection.</p>
+    </div>
+
+    <!-- Matchmaking Overlay -->
+    <div id="lobby-screen" class="col-12 text-center">
+        <div class="game-card" style="max-width: 500px; margin: 0 auto; border: 2px solid var(--term-blue);">
+            <h3 class="mb-4">SYSTEM READY</h3>
+            <p>Initializing connection to competitive servers...</p>
+            <button id="btn-find-match" class="btn-game" onclick="findMatch()">[ FIND_MATCH ]</button>
+            <div id="status-display" style="margin-top: 20px; color: var(--term-gold); font-family: 'Courier New';">
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Screen (Hidden initially) -->
+    <div id="game-screen" class="col-12" style="display: none;">
+        <div class="row">
+            <!-- Left: You -->
+            <div class="col-md-6 mb-3">
+                <div class="game-card" style="border-left: 5px solid var(--term-green); height: 100%;">
+                    <h3 style="color: var(--term-green); border-bottom: 1px solid #333; padding-bottom: 10px;">
+                        YOU <span class="badge bg-secondary" style="font-size: 0.6rem;">OPERATOR</span>
+                    </h3>
+
+                    <div id="my-question-area" style="margin-top: 20px;">
+                        <div style="background: #111; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                            <h5 style="color: #aaa;">CURRENT_OBJECTIVE:</h5>
+                            <p id="q-text" style="color: #fff; font-size: 1.2rem; font-weight: bold;">Loading...</p>
+                        </div>
+
+                        <div id="q-options" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <!-- Options injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Opponent -->
+            <div class="col-md-6 mb-3">
+                <div class="game-card"
+                    style="border-right: 5px solid var(--term-red); height: 100%; text-align: right;">
+                    <h3 style="color: var(--term-red); border-bottom: 1px solid #333; padding-bottom: 10px;">
+                        OPPONENT <span class="badge bg-secondary" style="font-size: 0.6rem;">RIVAL</span>
+                    </h3>
+
+                    <div style="margin-top: 20px;">
+                        <h1 style="font-size: 4rem; color: #333;">
+                            <i class="fa-solid fa-user-secret"></i>
+                        </h1>
+                        <h4 id="opponent-status" style="color: var(--term-gold);">WAITING...</h4>
+                        <div id="opponent-logs"
+                            style="text-align: right; color: #666; font-size: 0.8rem; height: 150px; overflow-y: auto; border: 1px solid #222; padding: 10px;">
+                            > Connection Established...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SocketIO Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script>
+    const socket = io();
+    let currentRoomId = null;
+    let questionsPool = [];
+    let currentQIndex = 0;
+
+    socket.on('connect', () => {
+        document.getElementById('status-display').innerText = "> CONNECTED TO SERVER NODE.";
+    });
+
+    socket.on('waiting_for_opponent', (data) => {
+        currentRoomId = data.roomId;
+        document.getElementById('status-display').innerHTML = `> SEARCHING FOR RIVAL... <i class="fa-solid fa-spinner fa-spin"></i><br>Room: ${currentRoomId}`;
+        document.getElementById('btn-find-match').style.display = 'none';
+    });
+
+    socket.on('game_start', (data) => {
+        currentRoomId = data.roomId;
+        questionsPool = data.questions;
+
+        document.getElementById('lobby-screen').style.display = 'none';
+        document.getElementById('game-screen').style.display = 'block';
+
+        loadQuestion(0);
+        addLog("Match Started against " + data.opponent);
+    });
+
+    socket.on('opponent_update', (data) => {
+        const el = document.getElementById('opponent-status');
+        if (data.status === 'CORRECT_ANSWER') {
+            el.innerHTML = '<span style="color: var(--term-green);">CORRECT SOLUTION</span>';
+            addLog(`${data.username} solved round ${data.round}.`);
+            setTimeout(() => { el.innerText = "THINKING..."; }, 2000);
+        } else {
+            el.innerText = data.status;
+        }
+    });
+
+    socket.on('game_over', (data) => {
+        alert("GAME OVER\nWinner: " + data.winner + "\nReason: " + data.reason);
+        window.location.href = "{{ url_for('admin.arenas') }}";
+    });
+
+    function findMatch() {
+        socket.emit('find_match');
+        document.getElementById('status-display').innerText = "> INITIATING HANDSHAKE...";
+    }
+
+    function loadQuestion(index) {
+        if (index >= questionsPool.length) {
+            // Finished all questions - You Win (technically wait for opponent outcome, but for now we claim victory)
+            alert("ALL OBJECTIVES COMPLETE. DATA UPLOADED.");
+            window.location.href = "{{ url_for('admin.arenas') }}";
+            return;
+        }
+
+        const q = questionsPool[index];
+        document.getElementById('q-text').innerText = q.question;
+
+        const optsContainer = document.getElementById('q-options');
+        optsContainer.innerHTML = '';
+
+        // Ensure options exist
+        if (q.options) {
+            q.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'btn-game';
+                btn.style.fontSize = '0.9rem';
+                btn.textContent = opt;
+                btn.onclick = () => submitAnswer(opt, q.answer, index + 1);
+                optsContainer.appendChild(btn);
+            });
+        }
+    }
+
+    function submitAnswer(selected, correct, roundNum) {
+        const isCorrect = (selected === correct);
+
+        if (isCorrect) {
+            document.getElementById('q-options').innerHTML = '<div style="color: var(--term-green); font-size: 1.5rem;">CORRECT</div>';
+            socket.emit('round_submit', { roomId: currentRoomId, round: roundNum, correct: true });
+
+            setTimeout(() => {
+                currentQIndex++;
+                loadQuestion(currentQIndex);
+            }, 1000);
+        } else {
+            document.getElementById('q-options').innerHTML = '<div style="color: var(--term-red); font-size: 1.5rem;">FAILURE</div>';
+            socket.emit('round_submit', { roomId: currentRoomId, round: roundNum, correct: false });
+            // Game Over will be triggered by server event, but visually we stopped.
+        }
+    }
+
+    function addLog(msg) {
+        const logs = document.getElementById('opponent-logs');
+        logs.innerHTML += `<div>> ${msg}</div>`;
+        logs.scrollTop = logs.scrollHeight;
+    }
+</script>
+{% endblock %}

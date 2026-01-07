@@ -27,7 +27,7 @@
         </div>
         {% endif %}
 
-        <form action="{{ url_for('admin.login') }}" method="POST">
+        <form action="{{ url_for('auth.login') }}" method="POST">
             <div class="form-group">
                 <label class="input-label" for="username">User.Identity</label>
                 <input type="text" id="username" name="username" class="input-field" placeholder="admin" required
@@ -45,7 +45,7 @@
         </form>
 
         <div class="links">
-            <a href="{{ url_for('admin.register') }}">[ NEW_USER_REGISTRATION ]</a>
+            <a href="{{ url_for('auth.register') }}">[ NEW_USER_REGISTRATION ]</a>
         </div>
     </div>
 

@@ -6,13 +6,13 @@
 <div class="row">
     <div class="col-12 mb-4">
         <a href="{{ url_for('admin.cursos') }}" class="btn-game" style="font-size: 0.8rem;">
-            << BACK TO COURSES
-        </a>
+            << BACK TO COURSES </a>
     </div>
 
     <!-- COURSE HEADER -->
     <div class="col-12 mb-4 text-center">
-        <h1 class="text-neon-blue" style="font-size: 3rem; text-shadow: 0 0 10px var(--term-blue);">{{ curso.Nombre }}</h1>
+        <h1 class="text-neon-blue" style="font-size: 3rem; text-shadow: 0 0 10px var(--term-blue);">{{ curso.Nombre }}
+        </h1>
         <p class="text-muted">{{ curso.Descripcion }}</p>
         <span class="badge" style="background: #333; color: #fff; padding: 5px 10px;">{{ curso.Nivel }}</span>
         <span class="badge" style="background: #333; color: #fff; padding: 5px 10px;">{{ curso.Rama }}</span>
@@ -37,7 +37,8 @@
                             {{ log.Enunciado }}
                         </p>
                         <div class="d-flex justify-content-between align-items-center">
-                            <span style="font-size: 0.8rem; color: var(--term-gold);">LVL {{ log.NivelDificultad }}</span>
+                            <span style="font-size: 0.8rem; color: var(--term-gold);">LVL {{ log.NivelDificultad
+                                }}</span>
                             <button class="btn-game-sm" style="font-size: 0.8rem;">START</button>
                         </div>
                     </div>
@@ -48,44 +49,151 @@
         {% endfor %}
     </div>
 
-    <!-- EXAM SECTION -->
-    {% if examen %}
-    <div class="col-12 mt-4">
-        <div class="game-card" style="border: 2px solid var(--term-gold); background: rgba(255, 215, 0, 0.05);">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2 class="card-title text-neon-gold" style="margin: 0;">FINAL EXAM</h2>
-                <span style="background: var(--term-gold); color: #000; padding: 2px 8px; font-weight: bold;">PASS MARK: {{ examen.NotaMinima }}%</span>
-            </div>
-            
-            <p class="text-center mb-4">Prove your mastery of {{ curso.Nombre }}. Solve all 5 questions to pass.</p>
+    <!-- CONCEPTS & EXAMPLES (Specific for Algebra I) -->
+    {% if curso.Nombre == 'Algebra I' %}
+    <div class="col-12 mb-4">
+        <div class="game-card" style="border-left: 5px solid var(--term-blue);">
+            <h2 class="card-title text-neon-blue" style="border-bottom: 1px solid #333; padding-bottom: 10px;">
+                KEY CONCEPTS
+            </h2>
 
-            <!-- Questions Preview (Or Actual Exam Form if we were implementing logic) -->
-            <div class="exam-preview">
-                {% if examen.Preguntas is iterable and examen.Preguntas is not string %}
-                    {% for q in examen.Preguntas %}
-                    <div class="mb-3" style="background: #000; padding: 15px; border-radius: 5px;">
-                        <p style="color: #fff; margin-bottom: 10px;"><strong>Q{{ loop.index }}:</strong> {{ q.question }}</p>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                            {% for opt in q.options %}
-                            <div style="background: #222; padding: 8px; border: 1px solid #444; color: #aaa; text-align: center; cursor: pointer;">
-                                {{ opt }}
-                            </div>
-                            {% endfor %}
-                        </div>
+            <!-- Concept 1 -->
+            <div class="mb-5">
+                <h4 style="color: #fff; border-bottom: 1px solid #444; padding-bottom: 5px;">1. Variables & Expressions
+                </h4>
+                <p style="color: #ccc;">A <strong>variable</strong> is a symbol (like $x$ or $y$) used to represent an
+                    unknown number. An <strong>expression</strong> combines variables, numbers, and operations.</p>
+
+                <div class="example-box"
+                    style="background: #151515; padding: 15px; border-radius: 5px; margin-top: 15px;">
+                    <div style="color: var(--term-blue); font-weight: bold; margin-bottom: 10px;">>> EXAMPLE:
+                        DECONSTRUCTING AN EXPRESSION</div>
+                    <div
+                        style="font-family: 'Courier New', monospace; font-size: 1.2rem; background: #000; padding: 10px; border: 1px solid #333; display: inline-block;">
+                        <span style="color: #ff3333;">3</span><span style="color: var(--term-green);">x</span> + <span
+                            style="color: #aaa;">4</span>
                     </div>
-                    {% endfor %}
-                {% else %}
-                    <p>No questions content available.</p>
-                {% endif %}
+                    <ul style="margin-top: 10px; list-style: none; padding-left: 0; color: #888;">
+                        <li><span style="color: var(--term-green);">x</span> : <strong>Variable</strong> (The unknown)
+                        </li>
+                        <li><span style="color: #ff3333;">3</span> : <strong>Coefficient</strong> (Multiplies the
+                            variable)</li>
+                        <li><span style="color: #aaa;">4</span> : <strong>Constant</strong> (Fixed value)</li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="text-center mt-4">
-                <button class="btn-game" style="width: 200px; border-color: var(--term-gold); color: var(--term-gold);">
-                    START EXAM
-                </button>
+            <!-- Concept 2 -->
+            <div class="mb-5">
+                <h4 style="color: #fff; border-bottom: 1px solid #444; padding-bottom: 5px;">2. Solving Linear Equations
+                </h4>
+                <p style="color: #ccc;">The goal is to <strong>isolate</strong> the variable on one side. Whatever you
+                    do to one side, you must do to the other.</p>
+
+                <div class="example-box"
+                    style="background: #151515; padding: 15px; border-radius: 5px; margin-top: 15px;">
+                    <div style="color: var(--term-blue); font-weight: bold; margin-bottom: 10px;">>> EXAMPLE: SOLVE FOR
+                        X</div>
+
+                    <!-- Step 1 -->
+                    <div style="margin-bottom: 15px;">
+                        <div style="color: #aaa; font-size: 0.9rem;">PROBLEM:</div>
+                        <code style="font-size: 1.1rem; color: #fff;">2x + 10 = 20</code>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div style="margin-bottom: 15px; padding-left: 15px; border-left: 2px solid #333;">
+                        <div style="color: var(--term-gold); font-size: 0.9rem;">STEP 1: SUBTRACT 10 FROM BOTH SIDES
+                        </div>
+                        <code
+                            style="color: #888;">2x + 10 <span style="color: #ff3333;">- 10</span> = 20 <span style="color: #ff3333;">- 10</span></code><br>
+                        <code style="color: #fff;">2x = 10</code>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div style="padding-left: 15px; border-left: 2px solid #333;">
+                        <div style="color: var(--term-gold); font-size: 0.9rem;">STEP 2: DIVIDE BY 2</div>
+                        <code
+                            style="color: #888;">2x <span style="color: var(--term-blue);">/ 2</span> = 10 <span style="color: var(--term-blue);">/ 2</span></code><br>
+                        <code style="color: var(--term-green); font-weight: bold; font-size: 1.2rem;">x = 5</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concept 3 -->
+            <div class="mb-4">
+                <h4 style="color: #fff; border-bottom: 1px solid #444; padding-bottom: 5px;">3. Slope of a Line</h4>
+                <p style="color: #ccc;">In the linear equation form <code>y = mx + b</code>:</p>
+                <ul style="color: #ccc;">
+                    <li><strong>m</strong> = Slope (Rise over Run)</li>
+                    <li><strong>b</strong> = Y-Intercept (Where the line crosses the Y axis)</li>
+                </ul>
             </div>
         </div>
     </div>
     {% endif %}
+
+    <!-- EXAM SECTION -->
+    {% if examen %}
+    <div class="col-12 mt-4" id="exam-section">
+        <div class="game-card" style="border: 2px solid var(--term-gold); background: rgba(255, 215, 0, 0.05);">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="card-title text-neon-gold" style="margin: 0;">FINAL EXAM</h2>
+                <span style="background: var(--term-gold); color: #000; padding: 2px 8px; font-weight: bold;">PASS MARK:
+                    {{ examen.NotaMinima }}%</span>
+            </div>
+
+            <p class="text-center mb-4 text-muted">Prove your mastery of {{ curso.Nombre }}. Solve all questions to
+                pass. +500 XP Reward.</p>
+
+            <!-- Exam Start Button -->
+            <div id="exam-start-overlay" class="text-center">
+                <i class="fa-solid fa-file-signature"
+                    style="font-size: 4rem; color: var(--term-gold); margin-bottom: 1rem;"></i>
+                <br>
+                <button class="btn-game" onclick="startExam()">[ START_EXAM_PROTOCOL ]</button>
+            </div>
+
+            <!-- Actual Exam Form -->
+            <div id="exam-form-container" style="display: none;">
+                {% if examen.Preguntas is iterable and examen.Preguntas is not string %}
+                <form id="course-exam-form">
+                    <input type="hidden" name="courseId" value="{{ curso.Id }}">
+                    {% for q in examen.Preguntas %}
+                    <div class="mb-4 p-3"
+                        style="background: rgba(0,0,0,0.5); border: 1px solid #333; border-radius: 5px;">
+                        <p style="color: #fff; font-size: 1.1rem; margin-bottom: 15px;">
+                            <span style="color: var(--term-gold);">Q{{ loop.index }}.</span> {{ q.question }}
+                        </p>
+                        <div class="options-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            {% for opt in q.options %}
+                            <label class="exam-option" style="cursor: pointer;">
+                                <input type="radio" name="q{{ q.id }}" value="{{ opt }}" style="display: none;"
+                                    onchange="selectOption(this)">
+                                <div class="option-box"
+                                    style="background: #222; padding: 10px; border: 1px solid #444; color: #aaa; text-align: center; transition: all 0.2s;">
+                                    {{ opt }}
+                                </div>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <div class="text-center mt-4">
+                        <button type="button" class="btn-game btn-submit-exam" onclick="submitExam()"
+                            style="border-color: var(--term-green); color: var(--term-green);">[ SUBMIT_ANSWERS
+                            ]</button>
+                    </div>
+                </form>
+                {% else %}
+                <p class="text-center">No questions content available.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='js/course_exam.js') }}"></script>
 </div>
 {% endblock %}

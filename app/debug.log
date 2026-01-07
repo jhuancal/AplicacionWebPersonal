@@ -1,0 +1,96 @@
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'antoni@gmail.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1767762461206, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1767762461206, 'Id': 'J-3fdd3663', 'IdPersona': 'P-0f429df5', 'Nombres': 'antoni', 'PasswordHash': '1234', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'antoni'}}
+User antoni connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'antoni@gmail.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1767762461206, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1767762461206, 'Id': 'J-3fdd3663', 'IdPersona': 'P-0f429df5', 'Nombres': 'antoni', 'PasswordHash': '1234', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'antoni'}}
+User antoni connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'antoni@gmail.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1767762461206, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1767762461206, 'Id': 'J-3fdd3663', 'IdPersona': 'P-0f429df5', 'Nombres': 'antoni', 'PasswordHash': '1234', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'antoni'}}
+User antoni connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+FIND_MATCH EVENT
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'antoni@gmail.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1767762461206, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1767762461206, 'Id': 'J-3fdd3663', 'IdPersona': 'P-0f429df5', 'Nombres': 'antoni', 'PasswordHash': '1234', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'antoni'}}
+User antoni connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'antoni@gmail.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1767762461206, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1767762461206, 'Id': 'J-3fdd3663', 'IdPersona': 'P-0f429df5', 'Nombres': 'antoni', 'PasswordHash': '1234', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'antoni'}}
+User antoni connected.
+FIND_MATCH EVENT
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+FIND_MATCH EVENT
+FIND_MATCH EVENT
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'antoni@gmail.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1767762461206, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1767762461206, 'Id': 'J-3fdd3663', 'IdPersona': 'P-0f429df5', 'Nombres': 'antoni', 'PasswordHash': '1234', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'antoni'}}
+User antoni connected.
+FIND_MATCH EVENT
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'antoni@gmail.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1767762461206, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1767762461206, 'Id': 'J-3fdd3663', 'IdPersona': 'P-0f429df5', 'Nombres': 'antoni', 'PasswordHash': '1234', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'antoni'}}
+User antoni connected.
+FIND_MATCH EVENT
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+FIND_MATCH EVENT
+FIND_MATCH EVENT
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'antoni@gmail.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1767762461206, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1767762461206, 'Id': 'J-3fdd3663', 'IdPersona': 'P-0f429df5', 'Nombres': 'antoni', 'PasswordHash': '1234', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'antoni'}}
+User antoni connected.
+FIND_MATCH EVENT
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'antoni@gmail.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1767762461206, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1767762461206, 'Id': 'J-3fdd3663', 'IdPersona': 'P-0f429df5', 'Nombres': 'antoni', 'PasswordHash': '1234', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'antoni'}}
+User antoni connected.
+FIND_MATCH EVENT
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'antoni@gmail.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1767762461206, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1767762461206, 'Id': 'J-3fdd3663', 'IdPersona': 'P-0f429df5', 'Nombres': 'antoni', 'PasswordHash': '1234', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'antoni'}}
+User antoni connected.
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'antoni@gmail.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1767762461206, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1767762461206, 'Id': 'J-3fdd3663', 'IdPersona': 'P-0f429df5', 'Nombres': 'antoni', 'PasswordHash': '1234', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'antoni'}}
+User antoni connected.
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'antoni@gmail.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1767762461206, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1767762461206, 'Id': 'J-3fdd3663', 'IdPersona': 'P-0f429df5', 'Nombres': 'antoni', 'PasswordHash': '1234', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'antoni'}}
+User antoni connected.
+FIND_MATCH EVENT
+CONNECT EVENT: Session: {'user_data': {'Apellidos': 'User', 'Dni': None, 'ESTADO': 1, 'Email': 'admin@matharena.com', 'EstadoCuenta': 'ACTIVO', 'FECHA_CREACION': 1725375954790, 'FECHA_MODIFICACION': None, 'FechaRegistro': 1725375954790, 'Id': 'J-ADMIN-001', 'IdPersona': 'P-ADMIN-001', 'Nombres': 'Admin', 'PasswordHash': 'admin', 'USER_CREACION': None, 'USER_MODIFICACION': None, 'Username': 'admin'}}
+User admin connected.
+FIND_MATCH EVENT

@@ -41,3 +41,50 @@ class AuthService:
             
         finally:
             conn.close()
+
+    @staticmethod
+    def register_user(username, password, email):
+        import uuid
+        import time
+        
+        conn = get_db_connection()
+        try:
+            user_repo = JugadorRepository(conn)
+            existing = user_repo.get_by_username(username)
+            if existing:
+                return False, "Username already exists"
+                
+            # Create Persona
+            persona_repo = PersonaRepository(conn)
+            persona_id = f"P-{str(uuid.uuid4())[:8]}"
+            persona_data = {
+                "Id": persona_id,
+                "Nombres": username, # Defaulting to username
+                "Apellidos": "User",
+                "Email": email,
+                "ESTADO": 1,
+                "FECHA_CREACION": int(time.time() * 1000)
+            }
+            persona_repo.add(**persona_data)
+            
+            # Create Jugador
+            jugador_id = f"J-{str(uuid.uuid4())[:8]}"
+            jugador_data = {
+                "Id": jugador_id,
+                "IdPersona": persona_id,
+                "Username": username,
+                "PasswordHash": password, # Plain text for dev
+                "FechaRegistro": int(time.time() * 1000),
+                "EstadoCuenta": "ACTIVO",
+                "ESTADO": 1,
+                "FECHA_CREACION": int(time.time() * 1000)
+            }
+            user_repo.add(**jugador_data)
+            
+            return True, "User created successfully"
+            
+        except Exception as e:
+            print(f"Registration Error: {e}")
+            return False, str(e)
+        finally:
+            conn.close()

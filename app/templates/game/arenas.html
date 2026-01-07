@@ -63,10 +63,25 @@
                 {% endif %}
             </div>
 
-            <button type="submit" class="btn-game" style="width: 100%; border-color: #ff3333; color: #ff3333;" {% if not
-                courses %}disabled style="opacity:0.5; cursor:not-allowed;" {% endif %}>
-                [ FIND_MATCH ]
-            </button>
+            <label style="display: block; margin-bottom: 0.5rem; color: #ff3333;">GAME_MODE:</label>
+            <select name="submode"
+                style="width: 100%; padding: 10px; background: #000; color: #fff; border: 1px solid #ff3333; margin-bottom: 2rem; font-family: inherit;">
+                <option value="RANKED_STANDARD">STANDARD (1v1)</option>
+                <option value="BATTLE_ROYALE">BATTLE_ROYALE (Last Man Standing)</option>
+                <option value="TIME_ATTACK_5">TIME_ATTACK (5 Minutes)</option>
+                <option value="TIME_ATTACK_10">TIME_ATTACK (10 Minutes)</option>
+                <option value="TIME_ATTACK_15">TIME_ATTACK (15 Minutes)</option>
+            </select>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn-game" style="width: 48%;">
+                    [ START_SIMULATION ]
+                </button>
+                <a href="{{ url_for('admin.arena_pvp') }}" class="btn-game"
+                    style="width: 48%; border-color: var(--term-gold); color: var(--term-gold); text-align: center; padding-top: 10px;">
+                    [ ENTER_PVP_LOBBY ]
+                </a>
+            </div>
         </form>
     </div>
 </div>
